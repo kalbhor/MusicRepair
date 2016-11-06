@@ -1,0 +1,11 @@
+# Compiled python modules.
+*.pyc
+
+# Setuptools dist folder.
+/dist/
+
+# Python egg metadeta
+/*.egg-info
+
+# Trash
+.DS_Store
