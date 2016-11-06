@@ -13,9 +13,10 @@ import requests
 import json
 import youtube_dl
 
-from mutagen.mp3 import MP3
+#from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, APIC, USLT
 
+from mutagen.mp3 import EasyMP3 as MP3
 
 if version_info[0] < 3:
     input = raw_input
@@ -190,8 +191,8 @@ def add_Details(FileName, songTitle, artist, album, lyrics):
     print(bcolors.OKGREEN)
     print("\n\nAdding Details..")
     print(bcolors.ENDC)
-    print(" \n\nLyrics :\n%s \n\nSong name : %s \n\nArtist : %s \n\nAlbum : %s \n\n " % (
-        lyrics, songTitle, artist, album))
+    print(" \n\nSong name : %s \n\nArtist : %s \n\nAlbum : %s \n\n " % (
+    songTitle, artist, album))
 
     try:
         tags = ID3(FileName)
@@ -219,12 +220,18 @@ def add_Details(FileName, songTitle, artist, album, lyrics):
 def search():
     files = [f for f in listdir('.') if f[-4:] == '.mp3']
     for FileName in files:
-        print(FileName)
-        artist, album, songName, lyrics = getDetails(FileName)
-        albumArt = getAlbumArt(album)
+        tags = MP3(FileName)
+        try:
+            print("%s album's songs already have tags " %tags["album"][0])
+        except:
+            
+            print("%s adding tags" %FileName)
+            artist, album, songName, lyrics = getDetails(FileName)
+            albumArt = getAlbumArt(album)
 
-        add_AlbumArt(albumArt, FileName)
-        add_Details(FileName, songName, artist, album, lyrics)
+            add_AlbumArt(albumArt, FileName)
+            add_Details(FileName, songName, artist, album, lyrics)
+            
 
 
 
