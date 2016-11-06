@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-from os import system, rename, listdir, curdir, name, listdir, path
+from os import system, rename, listdir, listdir, path
 from sys import version_info, stdin, platform
-from collections import OrderedDict
 from select import select
 from time import sleep
 
@@ -11,11 +10,8 @@ from time import sleep
 from bs4 import BeautifulSoup
 import requests
 import json
-import youtube_dl
 
-#from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, APIC, USLT
-
 from mutagen.mp3 import EasyMP3 as MP3
 
 if version_info[0] < 3:
@@ -26,41 +22,9 @@ else:
     from urllib.parse import quote
     from urllib.request import urlopen, Request
 
-if name == 'nt':
-    class bcolors:
-        HEADER = ''
-        OKBLUE = ''
-        OKGREEN = ''
-        WARNING = ''
-        FAIL = ''
-        ENDC = ''
-        BOLD = ''
-        UNDERLINE = ''
-        GRAY = ''
-        YELLOW = ''
-
-    tick = ''
-
-
-else:
-    class bcolors:
-        HEADER = '\033[95m'
-        OKBLUE = '\033[94m'
-        OKGREEN = '\033[32m'
-        WARNING = '\033[93m'
-        FAIL = '\033[91m'
-        ENDC = '\033[0m'
-        BOLD = '\033[1m'
-        UNDERLINE = '\033[4m'
-        GRAY = '\033[30m'
-        YELLOW = '\033[33m'
-
-    tick = u'\u2713'
-
 
 def getDetails(songName):
 
-    print(bcolors.FAIL)
     timeout = 10
     songName = songName.replace(' ', '+')
     url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + songName
@@ -114,8 +78,6 @@ def getDetails(songName):
             songTitle = songName
             artist = "Unknown"
 
-            print(bcolors.ENDC)
-
             return artist, album, songTitle
 
         if check == 'Y\n' or check == 'y\n':
@@ -129,16 +91,10 @@ def getDetails(songName):
             songTitle = songName
             artist = "Unknown"
 
-        print(bcolors.ENDC)
-
     return artist, album, songTitle, lyrics
 
 
 def getAlbumArt(album):
-
-    print(bcolors.OKGREEN)
-    print("\nFetching Album Art..")
-    print(bcolors.ENDC)
 
     album = album + " Album Art"
     album = album.replace(' ', '+')
@@ -180,19 +136,16 @@ def add_AlbumArt(albumArt, songTitle):
         audio.save()
 
     except Exception as e:
-        print(bcolors.FAIL)
+
         print("An Error occured while adding the album art : %s " % e)
-        print(bcolors.ENDC)
+
         pass
 
 
 def add_Details(FileName, songTitle, artist, album, lyrics):
 
-    print(bcolors.OKGREEN)
-    print("\n\nAdding Details..")
-    print(bcolors.ENDC)
     print(" \n\nSong name : %s \n\nArtist : %s \n\nAlbum : %s \n\n " % (
-    songTitle, artist, album))
+        songTitle, artist, album))
 
     try:
         tags = ID3(FileName)
@@ -206,9 +159,9 @@ def add_Details(FileName, songTitle, artist, album, lyrics):
         tags.save(FileName)
 
     except Exception as e:
-        print(bcolors.FAIL)
+
         print("Couldn't add song details : %s" % e)
-        print(bcolors.ENDC)
+
         pass
 
     try:
@@ -222,17 +175,15 @@ def search():
     for FileName in files:
         tags = MP3(FileName)
         try:
-            print("%s album's songs already have tags " %tags["album"][0])
+            print("%s album's songs already have tags " % tags["album"][0])
         except:
-            
-            print("%s adding tags" %FileName)
+
+            print("%s adding tags" % FileName)
             artist, album, songName, lyrics = getDetails(FileName)
             albumArt = getAlbumArt(album)
 
             add_AlbumArt(albumArt, FileName)
             add_Details(FileName, songName, artist, album, lyrics)
-            
-
 
 
 system('clear')
