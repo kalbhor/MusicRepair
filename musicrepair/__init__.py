@@ -26,8 +26,8 @@ else:
 def getDetails(songName):
 
     timeout = 10
-    songName = songName.replace(' ', '+')
-    url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + songName
+    url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + \
+        quote(songName.encode('utf-8'))
     html = requests.get(url)
     soup = BeautifulSoup(html.text, "html.parser")
     link = soup.find('a', {'class': 'high_profile'})
@@ -97,8 +97,6 @@ def getDetails(songName):
 def getAlbumArt(album):
 
     album = album + " Album Art"
-    album = album.replace(' ', '+')
-
     url = ("https://www.google.co.in/search?q=" +
            quote(album.encode('utf-8')) + "&source=lnms&tbm=isch")
     header = {'User-Agent':
@@ -175,10 +173,10 @@ def search():
     for FileName in files:
         tags = MP3(FileName)
         try:
-            print("%s album's songs already have tags " % tags["album"][0])
+            print("%s already has tags " % tags["album"][0])
         except:
 
-            print("%s adding tags" % FileName)
+            print("%s Adding metadata" % FileName)
             artist, album, songName, lyrics = getDetails(FileName)
             albumArt = getAlbumArt(album)
 
