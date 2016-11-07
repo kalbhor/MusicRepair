@@ -1,4 +1,5 @@
 # MusicRepair
+[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://pypi.python.org/pypi/musicrepair)
 ##### Fix .mp3 files in the current directory (Adds song details,album art)
 
 * Fixes .mp3 files in the current working directory
