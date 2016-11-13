@@ -11,7 +11,6 @@ from sys import version_info
 
 import json
 from bs4 import BeautifulSoup
-import requests
 
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
@@ -31,14 +30,14 @@ def get_details(song_name):
 
     url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + \
         quote(song_name.encode('utf-8'))
-    html = requests.get(url)
-    soup = BeautifulSoup(html.text, "html.parser")
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, "html.parser")
     link = soup.find('a', {'class': 'high_profile'})
     try:
         link = link.get('href')
-        link = requests.get(link)
+        link = urlopen(link).read()
 
-        soup = BeautifulSoup(link.text, "html.parser")
+        soup = BeautifulSoup(link, "html.parser")
 
         album_div = soup.find('div', {'id': 'albums'})
         title_div = soup.find('div', {'id': 'content_artist'}).find('h1')
