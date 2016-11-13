@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
+from mutagen import File
 
 if version_info[0] < 3:
     from urllib2 import urlopen, Request
@@ -105,8 +106,10 @@ def add_albumart(albumart, song_title):
 
     try:
         img = urlopen(albumart)  # Gets album art from url
-    except ValueError:
+
+    except Exception:
         print("    > Could not add album art")
+        return None
 
     audio = EasyMP3(song_title, ID3=ID3)
     try:
@@ -124,6 +127,7 @@ def add_albumart(albumart, song_title):
         )
     )
     audio.save()
+    print("     >Added Album Art")
 
 
 def add_details(file_name, song_title, artist, album, lyrics):
@@ -159,11 +163,21 @@ def search():
     '''
     files = [f for f in listdir('.') if f[-4:] == '.mp3']
     for file_name in files:
-        tags = EasyMP3(file_name)
-        try:
-            print("%s already has tags " % tags["album"][0])
-        except KeyError:
-            print("\n_-_-_-_-\n")
+        tags = File(file_name)
+        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():
+            print("%s already has tags " % tags["TIT2"])
+
+        elif not('APIC:Cover' in tags.keys()) and 'TALB' in tags.keys():
+            album = tags["TALB"].text[0]
+            print("........................\n")
+
+            print("%s Adding metadata" % file_name)
+
+            albumart = get_albumart(album)
+            add_albumart(albumart, file_name)
+
+        else:
+            print("........................\n")
 
             print("%s Adding metadata" % file_name)
             artist, album, song_name, lyrics = get_details(file_name)

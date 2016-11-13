@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='musicrepair',
-      version='1.0',
+      version='1.1',
       description='Lets you repair your music files by adding ID3 tags and album art',
       url='https://github.com/lakshaykalbhor/musicrepair',
       author='Lakshay Kalbhor',
