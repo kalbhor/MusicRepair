@@ -11,7 +11,7 @@ ___
 
 ##### > Adds artist name, album name, album art
 <img src="https://s19.postimg.org/tll7uil4j/Before_After.png" alt="Before_After" style="width: 689px;"/>
-
+<img src="https://s19.postimg.org/tll7uil4j/Before_After.png" width="689px" height="200px" />
 <br>
 ##### > Adds Lyrics
 <img src="https://s19.postimg.org/3rbf4ql4j/Screen_Shot_2016_11_28_at_2_37_00_AM.png" alt="Before_After" style="height: 400px;"/>
