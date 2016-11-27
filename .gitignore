@@ -4,8 +4,11 @@
 # Setuptools dist folder.
 /dist/
 
-# Python egg metadeta
+# Python egg metadeta.
 /*.egg-info
 
-# Trash
+# Trash.
 .DS_Store
+
+#Readme media files.
+/resources/
