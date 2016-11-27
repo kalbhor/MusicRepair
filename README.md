@@ -35,7 +35,7 @@ ___
 $ musicrepair
 ```
 
-<img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="480px" height="270px" />
+<img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="640px" height="360px" />
 
 
 License
