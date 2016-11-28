@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='musicrepair',
-      version='1.1',
+      version='2.4',
       description='Lets you repair your music files by adding ID3 tags and album art',
       url='https://github.com/lakshaykalbhor/musicrepair',
       author='Lakshay Kalbhor',
@@ -12,7 +12,7 @@ setup(name='musicrepair',
           'bs4',
           'mutagen',
       ],
-      entry_points={
-        'console_scripts': ['musicrepair=musicrepair.command_line:main'],
-      }
+      entry_points = {
+          'console_scripts': ['musicrepair=musicrepair.command_line:main'],
+      },
       )
