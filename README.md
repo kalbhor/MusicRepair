@@ -2,9 +2,10 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.python.org/pypi/musicrepair)
 ##### Fix .mp3 files in the current directory (Adds song details,album art)
 
-* Fixes .mp3 files in the current working directory
-* Ignores songs already containing metadata
-* Changes file name to correct song title
+* Fixes .mp3 files in the current working directory.
+* Adds lyrics to song.
+* Ignores songs already containing metadata.
+* Changes file name to correct song title.
 
 <br>
 ___
