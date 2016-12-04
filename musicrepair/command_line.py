@@ -7,6 +7,7 @@ https://github.com/lakshaykalbhor/MusicRepair
 
 from os import rename, listdir
 from sys import version_info
+import re
 
 import json
 from bs4 import BeautifulSoup
@@ -14,6 +15,8 @@ from bs4 import BeautifulSoup
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
 from mutagen import File
+
+import spotipy
 
 if version_info[0] < 3:
     from urllib2 import urlopen, Request
@@ -23,10 +26,97 @@ else:
     from urllib.request import urlopen, Request
 
 
-def get_details(song_name):
+def get_lyrics(song_name):
+    ''' 
+    Scrapes the lyrics of a song since spotify does not provide lyrics
+    takes song title as arguement 
     '''
-    Gets the song details
+
+    lyrics = ""
+    url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + \
+        quote(song_name.encode('utf-8'))
+    html = urlopen(url).read()
+    soup = BeautifulSoup(html, "html.parser")
+    link = soup.find('a', {'class': 'high_profile'})
+
+    try:
+        link = link.get('href')
+        link = urlopen(link).read()
+        soup = BeautifulSoup(link, "html.parser")
+
+        try:
+            lyrics = soup.find('div', {'id': 'lyrics'}).text
+            lyrics = lyrics[3:]
+
+        except AttributeError:
+            lyrics = ""
+
+    except:
+        lyrics = ""
+
+    return lyrics
+
+
+def improve_song_name(song_name):
     '''
+    Improves file name by removing crap words
+    '''
+
+    song_name = song_name[:-4]
+
+    repls = {  # Words to omit from song title for better results through spotify's API
+        '(official)': "",
+        '(lyrics)': "",
+        '(audio)': "",
+        '(remix)': "",
+        'official': "",
+        'lyrics': "",
+        'audio': "",
+        'remix': "",
+        'Remix': "",
+        '(Remix)': "",
+        '(Audio)': "",
+        'Audio': "",
+        'Official': "",
+    }
+
+    song_name = re.sub('|'.join(re.escape(key) for key in repls.keys()),
+                       lambda k: repls[k.group(0)], song_name)  # Regex to substitute repls
+
+    return song_name
+
+
+def get_details_1(song_name):
+    '''
+    Tries finding metadata through Spotify
+    '''
+
+    song_name = improve_song_name(song_name)
+
+    spotify = spotipy.Spotify()
+    results = spotify.search(song_name, limit=1)  # Find top result
+
+    print('*Finding metadata from spotify.')
+
+    try:
+        album = (results['tracks']['items'][0]['album']['name'])  # Parse json
+        artist = (results['tracks']['items'][0]['album']['artists'][0]['name'])
+        song_title = (results['tracks']['items'][0]['name'])
+        lyrics = get_lyrics(song_title)
+
+        return album, artist, song_title, lyrics
+
+    except IndexError:
+        print('*Could not find metadata from spotify, trying something else.')
+        return None
+
+
+def get_details_2(song_name):
+    '''
+    Gets the song details if song details not found through spotify
+    '''
+
+    song_name = improve_song_name(song_name)
 
     url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + \
         quote(song_name.encode('utf-8'))
@@ -46,7 +136,8 @@ def get_details(song_name):
             lyrics = soup.find('div', {'id': 'lyrics'}).text
             lyrics = lyrics[3:]
         except AttributeError:
-            lyrics = "     > Couldn't find lyrics"
+            lyrics = ""
+            print("     > Couldn't find lyrics")
 
         try:
             song_title = title_div.contents[0]
@@ -131,7 +222,7 @@ def add_albumart(albumart, song_title):
     print("     >Added Album Art")
 
 
-def add_details(file_name, song_title, artist, album, lyrics):
+def add_details(file_name, song_title, artist, album, lyrics=""):
     '''
     Adds the details to song
     '''
@@ -153,7 +244,7 @@ def add_details(file_name, song_title, artist, album, lyrics):
     except FileNotFoundError:
         pass
 
-    print("\n\n     ~Song name : %s \n\n     ~Artist : %s \n\n     ~Album : %s \n\n " % (
+    print("\n     [*]Song name : %s \n     [*]Artist : %s \n     [*]Album : %s \n " % (
         song_title, artist, album))
 
 
@@ -184,7 +275,13 @@ def main():
             print("........................\n")
 
             print("%s Adding metadata" % file_name)
-            artist, album, song_name, lyrics = get_details(file_name)
+
+            try:
+                artist, album, song_name, lyrics = get_details_1(file_name) #Try finding details through spotify 
+
+            except TypeError:
+                artist, album, song_name, lyrics = get_details_2(file_name) #Use bad scraping as last resort
+
             albumart = get_albumart(album)
 
             add_albumart(albumart, file_name)
