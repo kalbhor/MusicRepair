@@ -39,7 +39,13 @@ $ musicrepair
 
 <img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="853px" height="480px" />
 
+___
+### Resources 
+[Spotipy (Spotify wrapper)](https://github.com/plamere/spotipy)
+[Mutagen (ID3 tags editing)](https://pypi.python.org/pypi/mutagen)
+[BeautifulSoup (Web Scraping)](https://pypi.python.org/pypi/beautifulsoup4)
 
+___
 License
 ----
 The MIT License (MIT)
