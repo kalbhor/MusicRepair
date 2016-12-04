@@ -41,9 +41,12 @@ $ musicrepair
 
 ___
 ### Resources 
-[Spotipy (Spotify wrapper)](https://github.com/plamere/spotipy)
-[Mutagen (ID3 tags editing)](https://pypi.python.org/pypi/mutagen)
-[BeautifulSoup (Web Scraping)](https://pypi.python.org/pypi/beautifulsoup4)
+[Spotipy](https://github.com/plamere/spotipy) (Spotify wrapper)
+<br>
+[Mutagen](https://pypi.python.org/pypi/mutagen) (ID3 tags editing)
+<br>
+[BeautifulSoup](https://pypi.python.org/pypi/beautifulsoup4) (Web Scraping)
+<br>
 
 ___
 License
