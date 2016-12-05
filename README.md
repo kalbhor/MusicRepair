@@ -31,7 +31,19 @@ $ pip3 install musicrepair
 ```
 <br>
 ___
+### Options
 
+```
+$ musicrepair -h
+usage: musicrepair [-h] [-d DIRECTORY]
+
+Fix .mp3 files in any directory (Adds song details,album art)
+
+optional arguments:
+  -h, --help    show this help message and exit
+  -d DIRECTORY  Specifies the directory where the music files are located
+```
+___
 ### How to use
 ```sh
 $ musicrepair
