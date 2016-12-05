@@ -6,6 +6,8 @@ https://github.com/lakshaykalbhor/MusicRepair
 '''
 import six
 
+import argparse
+import os.path
 from os import rename, listdir
 from sys import version_info
 import re
@@ -249,17 +251,17 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-def main():
+def fix_music(music_dir):
     '''
     Searches for '.mp3' files in current directory
     and checks whether they already contain album art
     and album name tags or not.
     '''
 
-    files = [f for f in listdir('.') if f[-4:] == '.mp3']
+    files = [f for f in listdir(music_dir) if f[-4:] == '.mp3']
 
     for file_name in files:
-        tags = File(file_name)
+        tags = File(os.path.join(music_dir, file_name))
         if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():
             print("%s already has tags " % tags["TIT2"])
 
@@ -288,6 +290,17 @@ def main():
             add_albumart(albumart, file_name)
             add_details(file_name, song_name, artist, album, lyrics)
 
+
+def main():
+
+    #deal with arguments
+    parser = argparse.ArgumentParser(description="Fix .mp3 files in the any directory (Adds song details,album art)")
+    parser.add_argument('-d', action='store',dest='directory', help='Specifies the directory where the music files are located')
+    music_dir = parser.parse_args().directory
+    if not music_dir:
+        fix_music('.')
+    else:
+        fix_music(music_dir)
 
 if __name__ == '__main__':
     main()
