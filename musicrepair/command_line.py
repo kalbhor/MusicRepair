@@ -9,6 +9,7 @@ import argparse
 import re
 from os import rename, listdir, chdir
 
+
 import json
 from bs4 import BeautifulSoup
 
@@ -302,7 +303,7 @@ def main():
     '''
     Deals with arguements and calls other functions
     '''
-    
+
     parser = argparse.ArgumentParser(
         description="Fix .mp3 files in any directory (Adds song details,album art)")
     parser.add_argument('-d', action='store', dest='directory',
