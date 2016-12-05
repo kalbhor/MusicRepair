@@ -4,6 +4,7 @@
 Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
+import six
 
 from os import rename, listdir
 from sys import version_info
@@ -18,10 +19,10 @@ from mutagen import File
 
 import spotipy
 
-if version_info[0] < 3:
+if six.PY2:
     from urllib2 import urlopen, Request
     from urllib2 import quote
-else:
+elif six.PY3:
     from urllib.parse import quote
     from urllib.request import urlopen, Request
 
@@ -86,7 +87,7 @@ def improve_song_name(song_name):
     return song_name
 
 
-def get_details_1(song_name):
+def get_details_spotify(song_name):
     '''
     Tries finding metadata through Spotify
     '''
@@ -111,7 +112,7 @@ def get_details_1(song_name):
         return None
 
 
-def get_details_2(song_name):
+def get_details_letssingit(song_name):
     '''
     Gets the song details if song details not found through spotify
     '''
@@ -277,10 +278,10 @@ def main():
             print("%s Adding metadata" % file_name)
 
             try:
-                artist, album, song_name, lyrics = get_details_1(file_name) #Try finding details through spotify 
+                artist, album, song_name, lyrics = get_details_spotify(file_name) #Try finding details through spotify 
 
             except TypeError:
-                artist, album, song_name, lyrics = get_details_2(file_name) #Use bad scraping as last resort
+                artist, album, song_name, lyrics = get_details_letssingit(file_name) #Use bad scraping method as last resort
 
             albumart = get_albumart(album)
 
