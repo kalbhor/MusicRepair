@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-from os import rename, listdir
-from sys import version_info
+import os
+import sys
 import re
 
 import json
@@ -18,7 +18,7 @@ from mutagen import File
 
 import spotipy
 
-if version_info[0] < 3:
+if sys.version_info[0] < 3:
     from urllib2 import urlopen, Request
     from urllib2 import quote
 else:
@@ -86,7 +86,7 @@ def improve_song_name(song_name):
     return song_name
 
 
-def get_details_1(song_name):
+def get_details_through_spotify(song_name):
     '''
     Tries finding metadata through Spotify
     '''
@@ -111,7 +111,7 @@ def get_details_1(song_name):
         return None
 
 
-def get_details_2(song_name):
+def get_details_online(song_name):
     '''
     Gets the song details if song details not found through spotify
     '''
@@ -240,7 +240,7 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
     tags.save(file_name)
 
     try:
-        rename(file_name, song_title + '.mp3')
+        os.rename(file_name, song_title + '.mp3')
     except FileNotFoundError:
         pass
 
@@ -255,7 +255,7 @@ def main():
     and album name tags or not.
     '''
 
-    files = [f for f in listdir('.') if f[-4:] == '.mp3']
+    files = [f for f in os.listdir('.') if f[-4:] == '.mp3']
 
     for file_name in files:
         tags = File(file_name)
@@ -277,10 +277,10 @@ def main():
             print("%s Adding metadata" % file_name)
 
             try:
-                artist, album, song_name, lyrics = get_details_1(file_name) #Try finding details through spotify 
+                artist, album, song_name, lyrics = get_details_through_spotify(file_name) #Try finding details through spotify 
 
             except TypeError:
-                artist, album, song_name, lyrics = get_details_2(file_name) #Use bad scraping as last resort
+                artist, album, song_name, lyrics = get_details_online(file_name) #Use bad scraping as last resort
 
             albumart = get_albumart(album)
 
