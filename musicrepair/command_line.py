@@ -4,14 +4,17 @@
 Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
-import six
 
-from os import rename, listdir
-from sys import version_info
+import argparse
 import re
+from os import rename, listdir, chdir
 
 import json
 from bs4 import BeautifulSoup
+
+
+import six
+
 
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
@@ -28,9 +31,9 @@ elif six.PY3:
 
 
 def get_lyrics(song_name):
-    ''' 
+    '''
     Scrapes the lyrics of a song since spotify does not provide lyrics
-    takes song title as arguement 
+    takes song title as arguement
     '''
 
     lyrics = ""
@@ -93,6 +96,7 @@ def get_details_spotify(song_name):
     '''
 
     song_name = improve_song_name(song_name)
+    print(song_name)
 
     spotify = spotipy.Spotify()
     results = spotify.search(song_name, limit=1)  # Find top result
@@ -183,7 +187,7 @@ def get_albumart(album):
               '''Mozilla/5.0 (Windows NT 6.1; WOW64)
               AppleWebKit/537.36 (KHTML,like Gecko)
               Chrome/43.0.2357.134 Safari/537.36'''
-             }
+              }
 
     soup = BeautifulSoup(urlopen(Request(url, headers=header)), "html.parser")
 
@@ -242,6 +246,7 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
 
     try:
         rename(file_name, song_title + '.mp3')
+
     except FileNotFoundError:
         pass
 
@@ -249,9 +254,9 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-def main():
+def fix_music():
     '''
-    Searches for '.mp3' files in current directory
+    Searches for '.mp3' files in directory
     and checks whether they already contain album art
     and album name tags or not.
     '''
@@ -259,7 +264,9 @@ def main():
     files = [f for f in listdir('.') if f[-4:] == '.mp3']
 
     for file_name in files:
+
         tags = File(file_name)
+
         if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():
             print("%s already has tags " % tags["TIT2"])
 
@@ -278,15 +285,35 @@ def main():
             print("%s Adding metadata" % file_name)
 
             try:
-                artist, album, song_name, lyrics = get_details_spotify(file_name) #Try finding details through spotify 
+                artist, album, song_name, lyrics = get_details_spotify(
+                    file_name)  # Try finding details through spotify
 
             except TypeError:
-                artist, album, song_name, lyrics = get_details_letssingit(file_name) #Use bad scraping method as last resort
+                artist, album, song_name, lyrics = get_details_letssingit(
+                    file_name)  # Use bad scraping method as last resort
 
             albumart = get_albumart(album)
 
             add_albumart(albumart, file_name)
             add_details(file_name, song_name, artist, album, lyrics)
+
+
+def main():
+    '''
+    Deals with arguements and calls other functions
+    '''
+    
+    parser = argparse.ArgumentParser(
+        description="Fix .mp3 files in any directory (Adds song details,album art)")
+    parser.add_argument('-d', action='store', dest='directory',
+                        help='Specifies the directory where the music files are located')
+    music_dir = parser.parse_args().directory
+
+    if not music_dir:
+        fix_music()
+    else:
+        chdir(music_dir)
+        fix_music()
 
 
 if __name__ == '__main__':
