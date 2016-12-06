@@ -6,22 +6,13 @@ https://github.com/lakshaykalbhor/MusicRepair
 '''
 
 import argparse
-<<<<<<< HEAD
-=======
-import os.path
-from os import rename, listdir
-from sys import version_info
->>>>>>> fd42a7e394b3158d8511723f2aec7675e752a254
 import re
 from os import rename, listdir, chdir
-
 
 import json
 from bs4 import BeautifulSoup
 
-
 import six
-
 
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
@@ -261,11 +252,8 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-<<<<<<< HEAD
+
 def fix_music():
-=======
-def fix_music(music_dir):
->>>>>>> fd42a7e394b3158d8511723f2aec7675e752a254
     '''
     Searches for '.mp3' files in directory
     and checks whether they already contain album art
@@ -275,13 +263,8 @@ def fix_music(music_dir):
     files = [f for f in listdir(music_dir) if f[-4:] == '.mp3']
 
     for file_name in files:
-<<<<<<< HEAD
-
         tags = File(file_name)
 
-=======
-        tags = File(os.path.join(music_dir, file_name))
->>>>>>> fd42a7e394b3158d8511723f2aec7675e752a254
         if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():
             print("%s already has tags " % tags["TIT2"])
 
@@ -314,7 +297,6 @@ def fix_music(music_dir):
 
 
 def main():
-<<<<<<< HEAD
     '''
     Deals with arguements and calls other functions
     '''
@@ -330,18 +312,6 @@ def main():
     else:
         chdir(music_dir)
         fix_music()
-
-=======
-
-    #deal with arguments
-    parser = argparse.ArgumentParser(description="Fix .mp3 files in the any directory (Adds song details,album art)")
-    parser.add_argument('-d', action='store',dest='directory', help='Specifies the directory where the music files are located')
-    music_dir = parser.parse_args().directory
-    if not music_dir:
-        fix_music('.')
-    else:
-        fix_music(music_dir)
->>>>>>> fd42a7e394b3158d8511723f2aec7675e752a254
 
 if __name__ == '__main__':
     main()
