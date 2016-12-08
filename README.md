@@ -20,12 +20,12 @@ ___
 ___
 ### Installation
 
-##### Python 2.7x
+##### Python 2.x
 ```sh
 $ pip install musicrepair
 ```
 
-##### Python 3.4x
+##### Python 3.x
 ```sh
 $ pip3 install musicrepair
 ```
@@ -53,11 +53,11 @@ $ musicrepair
 
 ___
 ### Resources 
-[Spotipy](https://github.com/plamere/spotipy) (Spotify wrapper)
+[Spotipy](https://github.com/plamere/spotipy)
 <br>
-[Mutagen](https://pypi.python.org/pypi/mutagen) (ID3 tags editing)
+[Mutagen](https://pypi.python.org/pypi/mutagen)
 <br>
-[BeautifulSoup](https://pypi.python.org/pypi/beautifulsoup4) (Web Scraping)
+[BeautifulSoup](https://pypi.python.org/pypi/beautifulsoup4)
 <br>
 
 ___
