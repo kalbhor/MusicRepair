@@ -94,7 +94,6 @@ def get_details_spotify(song_name):
     '''
 
     song_name = improve_song_name(song_name)
-    print(song_name)
 
     spotify = spotipy.Spotify()
     results = spotify.search(song_name, limit=1)  # Find top result
@@ -260,7 +259,7 @@ def fix_music():
     and album name tags or not.
     '''
 
-    files = [f for f in listdir(music_dir) if f[-4:] == '.mp3']
+    files = [f for f in listdir('.') if f[-4:] == '.mp3']
 
     for file_name in files:
         tags = File(file_name)
