@@ -107,7 +107,7 @@ def get_details_spotify(song_name):
         song_title = (results['tracks']['items'][0]['name'])
         lyrics = get_lyrics(song_title)
 
-        return album, artist, song_title, lyrics
+        return artist, album, song_title, lyrics
 
     except IndexError:
         print('*Could not find metadata from spotify, trying something else.')
