@@ -6,8 +6,8 @@ https://github.com/lakshaykalbhor/MusicRepair
 '''
 
 import argparse
-import re
 from os import rename, listdir, chdir
+import difflib
 
 import json
 from bs4 import BeautifulSoup
@@ -26,6 +26,23 @@ if six.PY2:
 elif six.PY3:
     from urllib.parse import quote
     from urllib.request import urlopen, Request
+
+
+''' local modules'''
+from . import albumsearch
+from . import improvename
+
+def matching_details(song_name,song_title,artist):
+
+    match_name = difflib.SequenceMatcher(None,song_name,song_title).ratio()
+    match_title = difflib.SequenceMatcher(None,song_name,artist).ratio()
+
+    if match_name >= 0.5 or (match_name < 0.5 and match_title >= 0.45):
+        return True
+
+    else:
+        return False
+
 
 
 def get_lyrics(song_name):
@@ -59,33 +76,6 @@ def get_lyrics(song_name):
     return lyrics
 
 
-def improve_song_name(song_name):
-    '''
-    Improves file name by removing crap words
-    '''
-
-    song_name = song_name[:-4]
-
-    repls = {  # Words to omit from song title for better results through spotify's API
-        '(official)': "",
-        '(lyrics)': "",
-        '(audio)': "",
-        '(remix)': "",
-        'official': "",
-        'lyrics': "",
-        'audio': "",
-        'remix': "",
-        'Remix': "",
-        '(Remix)': "",
-        '(Audio)': "",
-        'Audio': "",
-        'Official': "",
-    }
-
-    song_name = re.sub('|'.join(re.escape(key) for key in repls.keys()),
-                       lambda k: repls[k.group(0)], song_name)  # Regex to substitute repls
-
-    return song_name
 
 
 def get_details_spotify(song_name):
@@ -93,7 +83,7 @@ def get_details_spotify(song_name):
     Tries finding metadata through Spotify
     '''
 
-    song_name = improve_song_name(song_name)
+    song_name = improvename.songname(song_name)
 
     spotify = spotipy.Spotify()
     results = spotify.search(song_name, limit=1)  # Find top result
@@ -106,7 +96,12 @@ def get_details_spotify(song_name):
         song_title = (results['tracks']['items'][0]['name'])
         lyrics = get_lyrics(song_title)
 
-        return artist, album, song_title, lyrics
+
+        if matching_details(song_name,song_title,artist):
+            return artist, album, song_title, lyrics
+        else:
+            return None
+
 
     except IndexError:
         print('*Could not find metadata from spotify, trying something else.')
@@ -118,7 +113,7 @@ def get_details_letssingit(song_name):
     Gets the song details if song details not found through spotify
     '''
 
-    song_name = improve_song_name(song_name)
+    song_name = improvename.songname(song_name)
 
     url = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&artist_id=&l=archive&s=" + \
         quote(song_name.encode('utf-8'))
@@ -169,28 +164,13 @@ def get_details_letssingit(song_name):
         artist = "Unknown"
         lyrics = ""
 
-    return artist, album, song_title, lyrics
+    match_bool = matching_details(song_name,song_title,artist)
 
 
-def get_albumart(album):
-    '''
-    Fetches the album art
-    '''
+    return artist, album, song_title, lyrics, match_bool
 
-    album = album + " Album Art"
-    url = ("https://www.google.com/search?q=" +
-           quote(album.encode('utf-8')) + "&source=lnms&tbm=isch")
-    header = {'User-Agent':
-              '''Mozilla/5.0 (Windows NT 6.1; WOW64)
-              AppleWebKit/537.36 (KHTML,like Gecko)
-              Chrome/43.0.2357.134 Safari/537.36'''
-              }
 
-    soup = BeautifulSoup(urlopen(Request(url, headers=header)), "html.parser")
 
-    albumart_div = soup.find("div", {"class": "rg_meta"})
-    albumart = json.loads(albumart_div.text)["ou"]
-    return albumart
 
 
 def add_albumart(albumart, song_title):
@@ -273,7 +253,11 @@ def fix_music():
 
             print("%s Adding metadata" % file_name)
 
-            albumart = get_albumart(album)
+            try:
+                albumart = albumsearch.img_search_google(album)
+            except Exception:
+                albumart = albumsearch.img_search_bing(album)
+
             add_albumart(albumart, file_name)
 
         else:
@@ -286,13 +270,22 @@ def fix_music():
                     file_name)  # Try finding details through spotify
 
             except TypeError:
-                artist, album, song_name, lyrics = get_details_letssingit(
+                artist, album, song_name, lyrics, match_bool = get_details_letssingit(
                     file_name)  # Use bad scraping method as last resort
 
-            albumart = get_albumart(album)
+            try:
+                print('*Trying to extract album art from google')
+                albumart = albumsearch.img_search_google(album)
+            except Exception:
+                print('*Trying to extract album art from bing')
+                albumart = albumsearch.img_search_bing(album)
 
-            add_albumart(albumart, file_name)
-            add_details(file_name, song_name, artist, album, lyrics)
+            if match_bool:
+                add_albumart(albumart, file_name)
+                add_details(file_name, song_name, artist, album, lyrics)
+            else:
+                print("*Couldn't find appropriate details of your song")
+                pass
 
 
 def main():

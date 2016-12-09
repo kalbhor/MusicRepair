@@ -12,3 +12,6 @@
 
 #Readme media files.
 /resources/
+
+#API keys
+/musicrepair/keys
