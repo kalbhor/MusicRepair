@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-from . import albumsearch
-from . import improvename
+import albumsearch
+import improvename
 
 import argparse
 from os import rename, listdir, chdir
@@ -39,7 +39,7 @@ def matching_details(song_name, song_title, artist):
     match_name = difflib.SequenceMatcher(None, song_name, song_title).ratio()
     match_title = difflib.SequenceMatcher(None, song_name, artist).ratio()
 
-    if match_name >= 0.5 or (match_name < 0.5 and match_title >= 0.45):
+    if match_name >= 0.55 or (match_name < 0.55 and match_title >= 0.45):
         return True, match_name
 
     else:
@@ -285,6 +285,16 @@ def fix_music():
             print("........................\n\n")
 
 
+def revert_music():
+    files = [f for f in listdir('.') if f[-4:] == '.mp3']
+
+    for file_name in files:
+        print("Removing all metadata from %s" %file_name)
+        tags = EasyMP3(file_name)
+        tags.delete()
+        tags.save()
+
+
 def main():
     '''
     Deals with arguements and calls other functions
@@ -295,19 +305,28 @@ def main():
 
     parser = argparse.ArgumentParser(
         description="Fix .mp3 files in any directory (Adds song details,album art)")
-    parser.add_argument('-d', action='store', dest='directory',
+    parser.add_argument('-d', action='store', dest='repair_directory',
                         help='Specifies the directory where the music files are located')
-    music_dir = parser.parse_args().directory
+    parser.add_argument('--revert', action='store', dest='revert_directory',
+                        help='Specifies the directory where music files that need to be reverted are located')
+
+    args = parser.parse_args()    
+    music_dir = args.repair_directory
+    revert_dir = args.revert_directory
 
 
 
-    if not music_dir:
+    if not music_dir and not revert_dir:
         fix_music()
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
-    else:
+    elif music_dir and not revert_dir:
         chdir(music_dir)
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
         fix_music()
+
+    elif revert_dir:
+        chdir(revert_dir)
+        revert_music()
 
 if __name__ == '__main__':
     main()
