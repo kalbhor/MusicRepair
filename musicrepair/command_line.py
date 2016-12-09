@@ -5,14 +5,15 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
+from . import albumsearch
+from . import improvename
+
 import argparse
 from os import rename, listdir, chdir
 import difflib
-
-import json
-from bs4 import BeautifulSoup
-
 import six
+
+from bs4 import BeautifulSoup
 
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
@@ -28,21 +29,21 @@ elif six.PY3:
     from urllib.request import urlopen, Request
 
 
-''' local modules'''
-from . import albumsearch
-from . import improvename
 
-def matching_details(song_name,song_title,artist):
+def matching_details(song_name, song_title, artist):
+    '''
+    Provides a score out of 10 that determines the 
+    relevance of the search result 
+    '''
 
-    match_name = difflib.SequenceMatcher(None,song_name,song_title).ratio()
-    match_title = difflib.SequenceMatcher(None,song_name,artist).ratio()
+    match_name = difflib.SequenceMatcher(None, song_name, song_title).ratio()
+    match_title = difflib.SequenceMatcher(None, song_name, artist).ratio()
 
     if match_name >= 0.5 or (match_name < 0.5 and match_title >= 0.45):
-        return True
+        return True, match_name
 
     else:
-        return False
-
+        return False, (match_name + match_title) / 2
 
 
 def get_lyrics(song_name):
@@ -76,8 +77,6 @@ def get_lyrics(song_name):
     return lyrics
 
 
-
-
 def get_details_spotify(song_name):
     '''
     Tries finding metadata through Spotify
@@ -88,20 +87,19 @@ def get_details_spotify(song_name):
     spotify = spotipy.Spotify()
     results = spotify.search(song_name, limit=1)  # Find top result
 
-    print('*Finding metadata from spotify.')
+    print('*Finding metadata from Spotify.')
 
     try:
-        album = (results['tracks']['items'][0]['album']['name'])  # Parse json
+        album = (results['tracks']['items'][0]['album']['name'])  # Parse json dictionary
         artist = (results['tracks']['items'][0]['album']['artists'][0]['name'])
         song_title = (results['tracks']['items'][0]['name'])
         lyrics = get_lyrics(song_title)
 
-
-        if matching_details(song_name,song_title,artist):
-            return artist, album, song_title, lyrics
+        match_bool, score = matching_details(song_name, song_title, artist)
+        if match_bool:
+            return artist, album, song_title, lyrics, match_bool, score
         else:
             return None
-
 
     except IndexError:
         print('*Could not find metadata from spotify, trying something else.')
@@ -164,13 +162,9 @@ def get_details_letssingit(song_name):
         artist = "Unknown"
         lyrics = ""
 
-    match_bool = matching_details(song_name,song_title,artist)
+    match_bool, score = matching_details(song_name, song_title, artist)
 
-
-    return artist, album, song_title, lyrics, match_bool
-
-
-
+    return artist, album, song_title, lyrics, match_bool, score
 
 
 def add_albumart(albumart, song_title):
@@ -231,7 +225,6 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-
 def fix_music():
     '''
     Searches for '.mp3' files in directory
@@ -244,7 +237,7 @@ def fix_music():
     for file_name in files:
         tags = File(file_name)
 
-        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():
+        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys(): #Checks whether there is album art and album name
             print("%s already has tags " % tags["TIT2"])
 
         elif not('APIC:Cover' in tags.keys()) and 'TALB' in tags.keys():
@@ -266,19 +259,18 @@ def fix_music():
             print("%s Adding metadata" % file_name)
 
             try:
-                artist, album, song_name, lyrics = get_details_spotify(
+                artist, album, song_name, lyrics, match_bool, score = get_details_spotify(
                     file_name)  # Try finding details through spotify
-                match_bool = True
 
-            except TypeError:
-                artist, album, song_name, lyrics, match_bool = get_details_letssingit(
+            except Exception:
+                artist, album, song_name, lyrics, match_bool, score = get_details_letssingit(
                     file_name)  # Use bad scraping method as last resort
 
             try:
-                print('*Trying to extract album art from google')
+                print('*Trying to extract album art from Google.com')
                 albumart = albumsearch.img_search_google(album)
             except Exception:
-                print('*Trying to extract album art from bing')
+                print('*Trying to extract album art from Bing.com')
                 albumart = albumsearch.img_search_bing(album)
 
             if match_bool:
@@ -286,7 +278,11 @@ def fix_music():
                 add_details(file_name, song_name, artist, album, lyrics)
             else:
                 print("*Couldn't find appropriate details of your song")
-                pass
+                with open("musicrepair_log.txt", "a") as problems:
+                    problems.write(str(file_name)+'\n') #log song that couldn't be repaired
+
+            print("\nMatch score : %s%s" % (round(score * 10, 1), "/10.0"))
+            print("........................\n\n")
 
 
 def main():
@@ -294,16 +290,23 @@ def main():
     Deals with arguements and calls other functions
     '''
 
+    print('\n\n')
+
+
     parser = argparse.ArgumentParser(
         description="Fix .mp3 files in any directory (Adds song details,album art)")
     parser.add_argument('-d', action='store', dest='directory',
                         help='Specifies the directory where the music files are located')
     music_dir = parser.parse_args().directory
 
+
+
     if not music_dir:
         fix_music()
+        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
     else:
         chdir(music_dir)
+        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
         fix_music()
 
 if __name__ == '__main__':

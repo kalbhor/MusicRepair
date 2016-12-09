@@ -44,7 +44,7 @@ def img_search_bing(album):
 
 def img_search_google(album):
     '''
-    Fetches the album art
+    google image search
     '''
 
     album = album + " Album Art"
@@ -54,7 +54,7 @@ def img_search_google(album):
               '''Mozilla/5.0 (Windows NT 6.1; WOW64)
               AppleWebKit/537.36 (KHTML,like Gecko)
               Chrome/43.0.2357.134 Safari/537.36'''
-              }
+             }
 
 
 
@@ -62,5 +62,6 @@ def img_search_google(album):
 
     albumart_div = soup.find("div", {"class": "rg_meta"})
     albumart = json.loads(albumart_div.text)["ou"]
+    
     return albumart
 
