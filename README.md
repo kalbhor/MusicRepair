@@ -52,13 +52,8 @@ $ musicrepair
 <img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="853px" height="480px" />
 
 ___
-### Resources 
-[Spotipy](https://github.com/plamere/spotipy)
-<br>
-[Mutagen](https://pypi.python.org/pypi/mutagen)
-<br>
-[BeautifulSoup](https://pypi.python.org/pypi/beautifulsoup4)
-<br>
+### To do 
+- [ ] Add view mode (Doesn't change metadata, just shows changes)
 
 ___
 License
