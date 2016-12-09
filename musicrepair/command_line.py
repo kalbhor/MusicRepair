@@ -268,6 +268,7 @@ def fix_music():
             try:
                 artist, album, song_name, lyrics = get_details_spotify(
                     file_name)  # Try finding details through spotify
+                match_bool = True
 
             except TypeError:
                 artist, album, song_name, lyrics, match_bool = get_details_letssingit(
