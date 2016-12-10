@@ -36,22 +36,22 @@ ___
 
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [--revert REVERT_DIRECTORY]
-                   [--norename]
+usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-r REVERT_DIRECTORY]
+                   [-n]
 
 Fix .mp3 files in any directory (Adds song details,album art)
 
 optional arguments:
   -h, --help            Show this help message and exit
-  
-  -d                    Specifies the directory where the music files are
+
+  -d, --dir             Specifies the directory where the music files are
                         located
-                        
-  --revert
+
+  -r, --revert
                         Specifies the directory where music files that need to
                         be reverted are located
-                        
-  --norename            Does not rename files to song title
+
+  -n, --norename        Does not rename files to song title
 ```
 ___
 ### How to use
@@ -62,7 +62,7 @@ $ musicrepair
 <img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="853px" height="480px" />
 
 ___
-### To do 
+### To do
 - [ ] Add view mode (Doesn't change metadata, just shows changes)
 - [x] Add a revert mode (Removes all metadata from songs)
 - [x] Add a no rename mode (Doesn't change file name)
@@ -72,6 +72,3 @@ License
 ----
 The MIT License (MIT)
 Copyright (c) 2016 Lakshay Kalbhor
-
-
-

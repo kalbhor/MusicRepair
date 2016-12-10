@@ -32,8 +32,8 @@ elif six.PY3:
 
 def matching_details(song_name, song_title, artist):
     '''
-    Provides a score out of 10 that determines the 
-    relevance of the search result 
+    Provides a score out of 10 that determines the
+    relevance of the search result
     '''
 
     match_name = difflib.SequenceMatcher(None, song_name, song_title).ratio()
@@ -306,13 +306,13 @@ def main():
 
     parser = argparse.ArgumentParser(
         description="Fix .mp3 files in any directory (Adds song details,album art)")
-    parser.add_argument('-d', action='store', dest='repair_directory',
+    parser.add_argument('-d', '--dir', action='store', dest='repair_directory',
                         help='Specifies the directory where the music files are located')
-    parser.add_argument('--revert', action='store', dest='revert_directory',
+    parser.add_argument('-r', '--revert', action='store', dest='revert_directory',
                         help='Specifies the directory where music files that need to be reverted are located')
-    parser.add_argument('--norename', action='store_true', help='Does not rename files to song title')
+    parser.add_argument('-n', '--norename', action='store_true', help='Does not rename files to song title')
 
-    args = parser.parse_args()    
+    args = parser.parse_args()
 
     music_dir = args.repair_directory
     revert_dir = args.revert_directory
