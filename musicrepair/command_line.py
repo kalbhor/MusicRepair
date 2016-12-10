@@ -215,17 +215,11 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
 
     tags.save(file_name)
 
-    try:
-        rename(file_name, song_title + '.mp3')
-
-    except FileNotFoundError:
-        pass
-
     print("\n     [*]Song name : %s \n     [*]Artist : %s \n     [*]Album : %s \n " % (
         song_title, artist, album))
 
 
-def fix_music():
+def fix_music(optional_arg = False):
     '''
     Searches for '.mp3' files in directory
     and checks whether they already contain album art
@@ -276,6 +270,13 @@ def fix_music():
             if match_bool:
                 add_albumart(albumart, file_name)
                 add_details(file_name, song_name, artist, album, lyrics)
+
+                try:
+                    if not optional_arg:
+                        rename(file_name, song_name + '.mp3')
+
+                except FileNotFoundError:
+                    pass
             else:
                 print("*Couldn't find appropriate details of your song")
                 with open("musicrepair_log.txt", "a") as problems:
@@ -309,24 +310,29 @@ def main():
                         help='Specifies the directory where the music files are located')
     parser.add_argument('--revert', action='store', dest='revert_directory',
                         help='Specifies the directory where music files that need to be reverted are located')
+    parser.add_argument('--norename', action='store_true', help='Does not rename files to song title')
 
     args = parser.parse_args()    
+
     music_dir = args.repair_directory
     revert_dir = args.revert_directory
 
+    optional_arg = args.norename
 
 
     if not music_dir and not revert_dir:
-        fix_music()
+        fix_music(optional_arg)
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
     elif music_dir and not revert_dir:
         chdir(music_dir)
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
-        fix_music()
+        fix_music(optional_arg)
 
-    elif revert_dir:
+    elif revert_dir and not music_dir:
         chdir(revert_dir)
         revert_music()
+    elif revert_dir and music_dir:
+        print("Can't revert and repair together")
 
 if __name__ == '__main__':
     main()
