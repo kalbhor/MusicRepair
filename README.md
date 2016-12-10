@@ -35,13 +35,22 @@ ___
 
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d DIRECTORY]
+usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [--revert REVERT_DIRECTORY]
+                   [--norename]
 
 Fix .mp3 files in any directory (Adds song details,album art)
 
 optional arguments:
-  -h, --help    show this help message and exit
-  -d DIRECTORY  Specifies the directory where the music files are located
+  -h, --help            Show this help message and exit
+  
+  -d                    Specifies the directory where the music files are
+                        located
+                        
+  --revert
+                        Specifies the directory where music files that need to
+                        be reverted are located
+                        
+  --norename            Does not rename files to song title
 ```
 ___
 ### How to use
