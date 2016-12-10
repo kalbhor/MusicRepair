@@ -29,6 +29,7 @@ $ pip install musicrepair
 ```sh
 $ pip3 install musicrepair
 ```
+(If it doesn't work for Windows users, check [this](https://github.com/lakshaykalbhor/MusicRepair/issues/9) out)
 <br>
 ___
 ### Options
