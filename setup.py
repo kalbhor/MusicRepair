@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='musicrepair',
-      version='4.2',
+      version='4.3',
       description='Lets you repair your music files by adding metadata and album art',
       url='https://github.com/lakshaykalbhor/musicrepair',
       author='Lakshay Kalbhor',
