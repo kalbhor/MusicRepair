@@ -22,12 +22,11 @@ from mutagen import File
 import spotipy
 
 if six.PY2:
-    from urllib2 import urlopen, Request
+    from urllib2 import urlopen
     from urllib2 import quote
 elif six.PY3:
     from urllib.parse import quote
-    from urllib.request import urlopen, Request
-
+    from urllib.request import urlopen
 
 
 def matching_details(song_name, song_title, artist):
@@ -219,7 +218,7 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-def fix_music(optional_arg = False):
+def fix_music(optional_arg=False):
     '''
     Searches for '.mp3' files in directory
     and checks whether they already contain album art
@@ -231,7 +230,7 @@ def fix_music(optional_arg = False):
     for file_name in files:
         tags = File(file_name)
 
-        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys(): #Checks whether there is album art and album name
+        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():  # Checks whether there is album art and album name
             print("%s already has tags " % tags["TIT2"])
 
         elif not('APIC:Cover' in tags.keys()) and 'TALB' in tags.keys():
@@ -280,7 +279,7 @@ def fix_music(optional_arg = False):
             else:
                 print("*Couldn't find appropriate details of your song")
                 with open("musicrepair_log.txt", "a") as problems:
-                    problems.write(str(file_name)+'\n') #log song that couldn't be repaired
+                    problems.write(str(file_name) + '\n')  # log song that couldn't be repaired
 
             print("\nMatch score : %s%s" % (round(score * 10, 1), "/10.0"))
             print("........................\n\n")
@@ -290,7 +289,7 @@ def revert_music():
     files = [f for f in listdir('.') if f[-4:] == '.mp3']
 
     for file_name in files:
-        print("Removing all metadata from %s" %file_name)
+        print("Removing all metadata from %s" % file_name)
         tags = EasyMP3(file_name)
         tags.delete()
         tags.save()
@@ -302,7 +301,6 @@ def main():
     '''
 
     print('\n\n')
-
 
     parser = argparse.ArgumentParser(
         description="Fix .mp3 files in any directory (Adds song details,album art)")
@@ -319,13 +317,12 @@ def main():
 
     optional_arg = args.norename
 
-
     if not music_dir and not revert_dir:
         fix_music(optional_arg)
-        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
+        open('musicrepair_log.txt', 'w')  # Create log file (If it exists from prev session, truncate it)
     elif music_dir and not revert_dir:
         chdir(music_dir)
-        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
+        open('musicrepair_log.txt', 'w')  # Create log file (If it exists from prev session, truncate it)
         fix_music(optional_arg)
 
     elif revert_dir and not music_dir:

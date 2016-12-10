@@ -7,14 +7,14 @@ setup(name='musicrepair',
       author='Lakshay Kalbhor',
       author_email='lakshaykalbhor@gmail.com',
       license='MIT',
-      packages =['musicrepair'],
+      packages=['musicrepair'],
       install_requires=[
           'bs4',
           'mutagen',
           'spotipy',
           'six',
       ],
-      entry_points = {
+      entry_points={
           'console_scripts': ['musicrepair=musicrepair.command_line:main'],
       },
       )
