@@ -29,19 +29,29 @@ $ pip install musicrepair
 ```sh
 $ pip3 install musicrepair
 ```
+(If it doesn't work for Windows users, check [this](https://github.com/lakshaykalbhor/MusicRepair/issues/9) out)
 <br>
 ___
 ### Options
 
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d DIRECTORY]
+usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [--revert REVERT_DIRECTORY]
+                   [--norename]
 
 Fix .mp3 files in any directory (Adds song details,album art)
 
 optional arguments:
-  -h, --help    show this help message and exit
-  -d DIRECTORY  Specifies the directory where the music files are located
+  -h, --help            Show this help message and exit
+  
+  -d                    Specifies the directory where the music files are
+                        located
+                        
+  --revert
+                        Specifies the directory where music files that need to
+                        be reverted are located
+                        
+  --norename            Does not rename files to song title
 ```
 ___
 ### How to use
@@ -54,6 +64,8 @@ $ musicrepair
 ___
 ### To do 
 - [ ] Add view mode (Doesn't change metadata, just shows changes)
+- [x] Add a revert mode (Removes all metadata from songs)
+- [x] Add a no rename mode (Doesn't change file name)
 
 ___
 License
