@@ -54,8 +54,8 @@ $ musicrepair
 ___
 ### To do 
 - [ ] Add view mode (Doesn't change metadata, just shows changes)
-- [*] Add a revert mode (Removes all metadata from songs)
-- [*] Add a no rename mode (Doesn't change file name)
+- [x] Add a revert mode (Removes all metadata from songs)
+- [x] Add a no rename mode (Doesn't change file name)
 
 ___
 License
