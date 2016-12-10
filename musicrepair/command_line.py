@@ -322,7 +322,9 @@ def main():
     rename_format = args.rename_format or '{title}' #Fallback to default format
 
     try: #Make sure format string is valid, exit otherwise before any changes were made
-        rename_format.format(title='', artist='', album='')
+        if rename_format.format(title='one', artist='two', album='three') == rename_format: #Also make sure format string contains at least one substitution
+            print("Format string contains no substitution")
+            exit()
     except (IndexError, KeyError):
         print("Format string contains curly-brackets with unrecognized format variables")
         exit()
