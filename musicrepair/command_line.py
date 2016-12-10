@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-import albumsearch
-import improvename
+from . import albumsearch
+from . import improvename
 
 import argparse
 from os import rename, listdir, chdir
