@@ -36,25 +36,32 @@ ___
 
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-r REVERT_DIRECTORY]
-                   [-n]
+usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-R] [-r REVERT_DIRECTORY] [-n]
+                   [--format RENAME_FORMAT]
 
-Fix .mp3 files in any directory (Adds song details,album art)
+Fix .mp3 files in any directory (Adds song details, album art)
 
 optional arguments:
-  -h, --help            Show this help message and exit
 
-  -d, --dir             Specifies the directory where the music files are
+  -h, --help            show this help message and exit
+  
+  -d , --dir 
+                        Specifies the directory where the music files are
                         located
-
-  -r, --revert
+                        
+  -R, --recursive       Specifies whether or not to run recursively in the
+                        given music directory
+                        
+  -r , --revert
                         Specifies the directory where music files that need to
                         be reverted are located
-
+                        
   -n, --norename        Does not rename files to song title
-
-  --format              Specify the title format used in renaming, these keywords
-                        will be replaced respectively: {title}{artist}{album}
+  
+  --format
+                        Specify the title format used in renaming, these
+                        keywords will be replaced respectively:
+                        {title}{artist}{album}
 ```
 ___
 ### How to use
