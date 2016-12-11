@@ -53,7 +53,7 @@ optional arguments:
   --norename            Does not rename files to song title
   
   --format              Specify the title format used in renaming, these keywords
-                        will be replaced respectively: {title} {artist} {album}
+                        will be replaced respectively: {title}{artist}{album}
 ```
 ___
 ### How to use
