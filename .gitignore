@@ -15,4 +15,4 @@ dist
 /resources/
 
 #API keys
-/musicrepair/albumsearch.py
+/musicrepair/albumsearch
