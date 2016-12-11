@@ -2,10 +2,11 @@
 *.pyc
 
 # Setuptools dist folder.
-/dist/
+build
+dist
 
 # Python egg metadeta.
-/*.egg-info
+*.egg-info
 
 # Trash.
 .DS_Store
