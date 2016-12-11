@@ -36,22 +36,23 @@ ___
 
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [--revert REVERT_DIRECTORY]
-                   [--norename]
+usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-r REVERT_DIRECTORY]
+                   [-n]
 
 Fix .mp3 files in any directory (Adds song details,album art)
 
 optional arguments:
   -h, --help            Show this help message and exit
-  
-  -d                    Specifies the directory where the music files are
+
+  -d, --dir             Specifies the directory where the music files are
                         located
-                        
-  --revert              Specifies the directory where music files that need to
+
+  -r, --revert
+                        Specifies the directory where music files that need to
                         be reverted are located
-                        
-  --norename            Does not rename files to song title
-  
+
+  -n, --norename        Does not rename files to song title
+
   --format              Specify the title format used in renaming, these keywords
                         will be replaced respectively: {title}{artist}{album}
 ```
@@ -64,7 +65,7 @@ $ musicrepair
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=CjJ0wHR3r2Y "MusicRepair - Usage")
 
 ___
-### To do 
+### To do
 - [ ] Add view mode (Doesn't change metadata, just shows changes)
 - [x] Add a revert mode (Removes all metadata from songs)
 - [x] Add a no rename mode (Doesn't change file name)
@@ -74,6 +75,3 @@ License
 ----
 The MIT License (MIT)
 Copyright (c) 2016 Lakshay Kalbhor
-
-
-

@@ -8,13 +8,18 @@ https://github.com/lakshaykalbhor/MusicRepair
 import albumsearch
 import improvename
 
+
 import argparse
-from os import rename, listdir, chdir
+from os import \
+    chdir, \
+    listdir, \
+    rename, \
+    walk
 import difflib
 import six
 
 from bs4 import BeautifulSoup
-
+from colorama import init, deinit, Fore
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
 from mutagen import File
@@ -22,18 +27,47 @@ from mutagen import File
 import spotipy
 
 if six.PY2:
-    from urllib2 import urlopen, Request
+    from urllib2 import urlopen
     from urllib2 import quote
 elif six.PY3:
     from urllib.parse import quote
-    from urllib.request import urlopen, Request
+    from urllib.request import urlopen
 
+LOG_FILENAME = 'musicrepair_log.txt'
+LOG_LINE_SEPERATOR = '........................\n'
+
+
+def log(text='', newline=False, trailing_newline=False):
+    newline_char = ''
+    trailing_newline_char = ''
+    if newline:
+        newline_char = '\n'
+    if trailing_newline:
+        trailing_newline_char = '\n'
+    print('%s%s%s' % (newline_char, text, trailing_newline_char))
+
+
+def log_indented(text='', newline=False, trailing_newline=False):
+    log('    %s' % text, newline=newline, trailing_newline=trailing_newline)
+
+
+def log_error(text='', indented=False):
+    msg = '%s%s%s' % (Fore.RED, text, Fore.RESET)
+    if indented:
+        log_indented(msg)
+    else:
+        log(msg)
+
+
+def log_success():
+    text = 'Finished successfully'
+    log('%s%s%s' % (Fore.GREEN, text, Fore.RESET))
 
 
 def matching_details(song_name, song_title, artist):
     '''
-    Provides a score out of 10 that determines the 
-    relevance of the search result 
+    Provides a score out of 10 that determines the
+    relevance of the search result
     '''
 
     match_name = difflib.SequenceMatcher(None, song_name, song_title).ratio()
@@ -87,7 +121,7 @@ def get_details_spotify(song_name):
     spotify = spotipy.Spotify()
     results = spotify.search(song_name, limit=1)  # Find top result
 
-    print('*Finding metadata from Spotify.')
+    log_indented('* Finding metadata from Spotify.')
 
     try:
         album = (results['tracks']['items'][0]['album']['name'])  # Parse json dictionary
@@ -102,7 +136,7 @@ def get_details_spotify(song_name):
             return None
 
     except IndexError:
-        print('*Could not find metadata from spotify, trying something else.')
+        log_error('* Could not find metadata from spotify, trying something else.', indented=True)
         return None
 
 
@@ -132,30 +166,30 @@ def get_details_letssingit(song_name):
             lyrics = lyrics[3:]
         except AttributeError:
             lyrics = ""
-            print("     > Couldn't find lyrics")
+            log_error("* Couldn't find lyrics", indented=True)
 
         try:
             song_title = title_div.contents[0]
             song_title = song_title[1:-8]
         except AttributeError:
-            print("    > Couldn't reset song title")
+            log_error("* Couldn't reset song title", indented=True)
             song_title = song_name
 
         try:
             artist = title_div.contents[1].getText()
         except AttributeError:
-            print("    > Couldn't find artist name")
+            log_error("* Couldn't find artist name", indented=True)
             artist = "Unknown"
 
         try:
             album = album_div.find('a').contents[0]
             album = album[:-7]
         except AttributeError:
-            print("    > Couldn't find the album name")
+            log_error("* Couldn't find the album name", indented=True)
             album = artist
 
     except AttributeError:
-        print("    > Couldn't find song details")
+        log_error("* Couldn't find song details", indented=True)
 
         album = song_name
         song_title = song_name
@@ -176,7 +210,7 @@ def add_albumart(albumart, song_title):
         img = urlopen(albumart)  # Gets album art from url
 
     except Exception:
-        print("    > Could not add album art")
+        log_error("* Could not add album art", indented=True)
         return None
 
     audio = EasyMP3(song_title, ID3=ID3)
@@ -195,50 +229,52 @@ def add_albumart(albumart, song_title):
         )
     )
     audio.save()
-    print("     >Added Album Art")
+    log("> Added album art")
 
 
-def add_details(file_name, song_title, artist, album, lyrics=""):
+def add_details(file_name, title, artist, album, lyrics=""):
     '''
     Adds the details to song
     '''
 
     tags = EasyMP3(file_name)
-    tags["album"] = album
-    tags["title"] = song_title
+    tags["title"] = title
     tags["artist"] = artist
+    tags["album"] = album
     tags.save()
 
     tags = ID3(file_name)
-    tags["USLT::'eng'"] = (
-        USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyrics))
+    uslt_output = USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyrics)
+    tags["USLT::'eng'"] = uslt_output
 
     tags.save(file_name)
 
-    print("\n     [*]Song name : %s \n     [*]Artist : %s \n     [*]Album : %s \n " % (
-        song_title, artist, album))
+    log("> Adding properties")
+    log_indented("[*] Title: %s" % title)
+    log_indented("[*] Artist: %s" % artist)
+    log_indented("[*] Album: %s " % album)
 
 
-def fix_music(rename_format, optional_arg = False):
+def fix_music(rename_format, norename=False):
     '''
-    Searches for '.mp3' files in directory
-    and checks whether they already contain album art
-    and album name tags or not.
+    Searches for '.mp3' files in directory (optionally recursive)
+    and checks whether they already contain album art and album name tags or not.
     '''
 
-    files = [f for f in listdir('.') if f[-4:] == '.mp3']
+    files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         tags = File(file_name)
 
-        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys(): #Checks whether there is album art and album name
-            print("%s already has tags " % tags["TIT2"])
+        if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():  # Checks whether there is album art and album name
+            log('%s already has tags ' % tags["TIT2"])
 
         elif not('APIC:Cover' in tags.keys()) and 'TALB' in tags.keys():
             album = tags["TALB"].text[0]
-            print("........................\n")
+            log(LOG_LINE_SEPERATOR)
 
-            print("%s Adding metadata" % file_name)
+            log(file_name)
+            log('> Adding metadata')
 
             try:
                 albumart = albumsearch.img_search_google(album)
@@ -248,9 +284,10 @@ def fix_music(rename_format, optional_arg = False):
             add_albumart(albumart, file_name)
 
         else:
-            print("........................\n")
+            log(LOG_LINE_SEPERATOR)
 
-            print("%s Adding metadata" % file_name)
+            log(file_name)
+            log('> Adding metadata')
 
             try:
                 artist, album, song_name, lyrics, match_bool, score = get_details_spotify(
@@ -261,10 +298,10 @@ def fix_music(rename_format, optional_arg = False):
                     file_name)  # Use bad scraping method as last resort
 
             try:
-                print('*Trying to extract album art from Google.com')
+                log_indented('* Trying to extract album art from Google.com')
                 albumart = albumsearch.img_search_google(album)
             except Exception:
-                print('*Trying to extract album art from Bing.com')
+                log_indented('* Trying to extract album art from Bing.com')
                 albumart = albumsearch.img_search_bing(album)
 
             if match_bool:
@@ -272,24 +309,25 @@ def fix_music(rename_format, optional_arg = False):
                 add_details(file_name, song_name, artist, album, lyrics)
 
                 try:
-                    if not optional_arg:
-                        rename(file_name, rename_format.format(title=song_name+' - ', artist=artist+' - ', album=album) + '.mp3')
+                    if not norename:
+                        song_title = rename_format.format(title=song_name + ' - ', artist=artist + ' - ', album=album)
+                        rename(file_name, '{song_title}.mp3'.format(song_title=song_title))
                 except Exception:
                     pass
             else:
-                print("*Couldn't find appropriate details of your song")
-                with open("musicrepair_log.txt", "a") as problems:
-                    problems.write(str(file_name)+'\n') #log song that couldn't be repaired
+                log_error("* Couldn't find appropriate details of your song", indented=True)
+                with open(LOG_FILENAME, "a") as problems:
+                    problems.write(str(file_name) + '\n')  # log song that couldn't be repaired
 
-            print("\nMatch score : %s%s" % (round(score * 10, 1), "/10.0"))
-            print("........................\n\n")
+            log("Match score: %s/10.0" % round(score * 10, 1))
+            log(LOG_LINE_SEPERATOR)
 
 
 def revert_music():
-    files = [f for f in listdir('.') if f[-4:] == '.mp3']
+    files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
-        print("Removing all metadata from %s" %file_name)
+        log('Removing all metadata from %s' % file_name)
         tags = EasyMP3(file_name)
         tags.delete()
         tags.save()
@@ -299,49 +337,70 @@ def main():
     '''
     Deals with arguements and calls other functions
     '''
+    init()
 
-    print('\n\n')
-
+    log('\n')
 
     parser = argparse.ArgumentParser(
-        description="Fix .mp3 files in any directory (Adds song details,album art)")
-    parser.add_argument('-d', action='store', dest='repair_directory',
+        description="Fix .mp3 files in any directory (Adds song details, album art)")
+    parser.add_argument('-d', '--dir', action='store', dest='repair_directory',
                         help='Specifies the directory where the music files are located')
-    parser.add_argument('--revert', action='store', dest='revert_directory',
+    parser.add_argument('-R', '--recursive', action='store_true',
+                        help='Specifies whether or not to run recursively in the given music directory')
+    parser.add_argument('-r', '--revert', action='store', dest='revert_directory',
                         help='Specifies the directory where music files that need to be reverted are located')
-    parser.add_argument('--norename', action='store_true', help='Does not rename files to song title')
+    parser.add_argument('-n', '--norename', action='store_true',
+                        help='Does not rename files to song title')
     parser.add_argument('--format', action='store', dest='rename_format',
                         help='Specify the title format used in renaming, these keywords will be replaced respectively: {title}{artist}{album}')
 
-    args = parser.parse_args()    
+    args = parser.parse_args()
 
-    music_dir = args.repair_directory
-    revert_dir = args.revert_directory
+    # Collect all the args
+    arg_music_dir = args.repair_directory
+    arg_revert_dir = args.revert_directory
+    arg_recursive = args.recursive
+    arg_norename = args.norename
+    arg_rename_format = args.rename_format or '{title}' #Fallback to default format
 
-    optional_arg = args.norename
-    rename_format = args.rename_format or '{title}' #Fallback to default format
+    # Decide what to do
+    if not arg_music_dir and not arg_revert_dir:
+        if arg_recursive:
+            for dirpath, _, _ in walk('.'):
+                fix_music(arg_rename_format, norename=arg_norename)
+        else:
+            fix_music(arg_rename_format, norename=arg_norename)
 
-    try: #Make sure format string is valid, exit otherwise before any changes were made
-        if rename_format.format(title='one', artist='two', album='three') == rename_format: #Also make sure format string contains at least one substitution
-            print("Format string contains no substitution")
-            exit()
-    except (IndexError, KeyError):
-        print("Format string contains curly-brackets with unrecognized format variables")
-        exit()
+        open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
+        log_success()
 
-    if not music_dir and not revert_dir:
-        fix_music(rename_format, optional_arg)
-        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
-    elif music_dir and not revert_dir:
-        chdir(music_dir)
-        open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
-        fix_music(rename_format, optional_arg)
+    elif arg_music_dir and not arg_revert_dir:
+        chdir(arg_music_dir)
+        if arg_recursive:
+            for dirpath, _, _ in walk('.'):
+                chdir(dirpath)
+                fix_music(arg_rename_format, norename=arg_norename)
+        else:
+            fix_music(arg_rename_format, norename=arg_norename)
 
-    elif revert_dir and not music_dir:
-        chdir(revert_dir)
-        revert_music()
-    elif revert_dir and music_dir:
-        print("Can't revert and repair together")
+        open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
+        log_success()
+
+    elif arg_revert_dir and not arg_music_dir:
+        chdir(arg_revert_dir)
+        if arg_recursive:
+            for dirpath, _, _ in walk('.'):
+                chdir(dirpath)
+                revert_music()
+        else:
+            revert_music()
+
+        log_success()
+
+    elif arg_revert_dir and arg_music_dir:
+        log("Can't revert and repair together")
+
+    deinit()
 
 if __name__ == '__main__':
     main()
