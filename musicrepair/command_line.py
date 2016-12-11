@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-import albumsearch
-import improvename
+from . import albumsearch
+from . import improvename
 
 
 import argparse
@@ -29,9 +29,12 @@ import spotipy
 if six.PY2:
     from urllib2 import urlopen
     from urllib2 import quote
+    Py3 = False
 elif six.PY3:
     from urllib.parse import quote
     from urllib.request import urlopen
+    Py3 = True
+
 
 LOG_FILENAME = 'musicrepair_log.txt'
 LOG_LINE_SEPERATOR = '........................\n'
@@ -261,7 +264,11 @@ def fix_music(rename_format, norename=False):
     and checks whether they already contain album art and album name tags or not.
     '''
 
-    files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+    if Py3:
+        files = [f for f in listdir('.') if f.endswith('.mp3')]
+
+    else:
+        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         tags = File(file_name)
@@ -324,7 +331,12 @@ def fix_music(rename_format, norename=False):
 
 
 def revert_music():
-    files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+
+    if Py3:
+        files = [f for f in listdir('.') if f.endswith('.mp3')]
+
+    else:
+        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         log('Removing all metadata from %s' % file_name)
