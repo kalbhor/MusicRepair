@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-from . import albumsearch
-from . import improvename
+import albumsearch
+import improvename
 
 import argparse
 from os import rename, listdir, chdir
@@ -219,7 +219,7 @@ def add_details(file_name, song_title, artist, album, lyrics=""):
         song_title, artist, album))
 
 
-def fix_music(optional_arg = False, rename_format):
+def fix_music(rename_format, optional_arg = False):
     '''
     Searches for '.mp3' files in directory
     and checks whether they already contain album art
@@ -273,8 +273,8 @@ def fix_music(optional_arg = False, rename_format):
 
                 try:
                     if not optional_arg:
-                        rename(file_name, rename_format.format(title=song_name, artist=artist, album=album) + '.mp3')
-                except FileNotFoundError:
+                        rename(file_name, rename_format.format(title=song_name+' - ', artist=artist+' - ', album=album) + '.mp3')
+                except Exception:
                     pass
             else:
                 print("*Couldn't find appropriate details of your song")
@@ -311,7 +311,7 @@ def main():
                         help='Specifies the directory where music files that need to be reverted are located')
     parser.add_argument('--norename', action='store_true', help='Does not rename files to song title')
     parser.add_argument('--format', action='store', dest='rename_format',
-                        help='Specify the title format used in renaming, these keywords will be replaced respectively: {title} {artist} {album}')
+                        help='Specify the title format used in renaming, these keywords will be replaced respectively: {title}{artist}{album}')
 
     args = parser.parse_args()    
 
@@ -330,12 +330,12 @@ def main():
         exit()
 
     if not music_dir and not revert_dir:
-        fix_music(optional_arg, rename_format)
+        fix_music(rename_format, optional_arg)
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
     elif music_dir and not revert_dir:
         chdir(music_dir)
         open('musicrepair_log.txt','w') #Create log file (If it exists from prev session, truncate it)
-        fix_music(optional_arg, rename_format)
+        fix_music(rename_format, optional_arg)
 
     elif revert_dir and not music_dir:
         chdir(revert_dir)
