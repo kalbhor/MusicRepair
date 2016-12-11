@@ -47,11 +47,13 @@ optional arguments:
   -d                    Specifies the directory where the music files are
                         located
                         
-  --revert
-                        Specifies the directory where music files that need to
+  --revert              Specifies the directory where music files that need to
                         be reverted are located
                         
   --norename            Does not rename files to song title
+  
+  --format              Specify the title format used in renaming, these keywords
+                        will be replaced respectively: {title} {artist} {album}
 ```
 ___
 ### How to use
