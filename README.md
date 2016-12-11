@@ -52,6 +52,9 @@ optional arguments:
                         be reverted are located
 
   -n, --norename        Does not rename files to song title
+
+  --format              Specify the title format used in renaming, these keywords
+                        will be replaced respectively: {title}{artist}{album}
 ```
 ___
 ### How to use
@@ -59,7 +62,7 @@ ___
 $ musicrepair
 ```
 
-<img src="https://s19.postimg.org/vspgifqer/ezgif_com_34cbcee901.gif" width="853px" height="480px" />
+[![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=CjJ0wHR3r2Y "MusicRepair - Usage")
 
 ___
 ### To do

@@ -5,8 +5,8 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-from . import albumsearch
-from . import improvename
+import albumsearch
+import improvename
 
 
 import argparse
@@ -255,7 +255,7 @@ def add_details(file_name, title, artist, album, lyrics=""):
     log_indented("[*] Album: %s " % album)
 
 
-def fix_music(recursive=False, norename=False):
+def fix_music(rename_format, norename=False):
     '''
     Searches for '.mp3' files in directory (optionally recursive)
     and checks whether they already contain album art and album name tags or not.
@@ -310,8 +310,9 @@ def fix_music(recursive=False, norename=False):
 
                 try:
                     if not norename:
-                        rename(file_name, '%s.mp3' % song_name)
-                except FileNotFoundError:
+                        song_title = rename_format.format(title=song_name + ' - ', artist=artist + ' - ', album=album)
+                        rename(file_name, '{song_title}.mp3'.format(song_title=song_title))
+                except Exception:
                     pass
             else:
                 log_error("* Couldn't find appropriate details of your song", indented=True)
@@ -350,6 +351,8 @@ def main():
                         help='Specifies the directory where music files that need to be reverted are located')
     parser.add_argument('-n', '--norename', action='store_true',
                         help='Does not rename files to song title')
+    parser.add_argument('--format', action='store', dest='rename_format',
+                        help='Specify the title format used in renaming, these keywords will be replaced respectively: {title}{artist}{album}')
 
     args = parser.parse_args()
 
@@ -358,14 +361,15 @@ def main():
     arg_revert_dir = args.revert_directory
     arg_recursive = args.recursive
     arg_norename = args.norename
+    arg_rename_format = args.rename_format or '{title}' #Fallback to default format
 
     # Decide what to do
     if not arg_music_dir and not arg_revert_dir:
         if arg_recursive:
             for dirpath, _, _ in walk('.'):
-                fix_music(norename=arg_norename)
+                fix_music(arg_rename_format, norename=arg_norename)
         else:
-            fix_music(norename=arg_norename)
+            fix_music(arg_rename_format, norename=arg_norename)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
@@ -375,9 +379,9 @@ def main():
         if arg_recursive:
             for dirpath, _, _ in walk('.'):
                 chdir(dirpath)
-                fix_music(norename=arg_norename)
+                fix_music(arg_rename_format, norename=arg_norename)
         else:
-            fix_music(norename=arg_norename)
+            fix_music(arg_rename_format, norename=arg_norename)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
