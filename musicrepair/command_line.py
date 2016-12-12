@@ -317,7 +317,7 @@ def fix_music(rename_format, norename=False):
 
                 try:
                     if not norename:
-                        song_title = rename_format.format(title=song_name + ' - ', artist=artist + ' - ', album=album)
+                        song_title = rename_format.format(title=song_name + ' - ', artist=artist + ' - ', album=album+'-').rstrip('-')
                         rename(file_name, '{song_title}.mp3'.format(song_title=song_title))
                 except Exception:
                     pass

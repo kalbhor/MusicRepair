@@ -20,7 +20,7 @@ def img_search_bing(album):
 
     album = album + " Album Art"
 
-    api_key = ""
+    api_key = "API Key"
     endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
     links_dict = {}
 
@@ -31,12 +31,15 @@ def img_search_bing(album):
     response = response.json()
 
     key = 0
+    try:
+        for i in response['value']:
+            links_dict[str(key)] = str((i['contentUrl']))
+            key = key + 1
 
-    for i in response['value']:
-        links_dict[str(key)] = str((i['contentUrl']))
-        key = key + 1
-
-    return links_dict["0"]
+        return links_dict["0"]
+        
+    except KeyError:
+        return None
 
 def img_search_google(album):
     '''
