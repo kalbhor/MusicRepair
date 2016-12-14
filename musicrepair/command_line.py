@@ -413,7 +413,6 @@ def main():
     elif arg_revert_dir and arg_music_dir:
         log("Can't revert and repair together")
 
-    deinit()
 
 if __name__ == '__main__':
     main()
