@@ -69,7 +69,8 @@ ___
 $ musicrepair
 ```
 
-[![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=qtBTKUyWTgc "MusicNow - Usage")
+[![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
+
 
 ___
 ### To do
