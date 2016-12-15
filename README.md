@@ -1,6 +1,6 @@
 # MusicRepair
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.python.org/pypi/musicrepair)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ##### Fix .mp3 files in the current directory (Adds song details,album art)
 
 * Fixes .mp3 files in the current working directory.
