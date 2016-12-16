@@ -7,7 +7,9 @@
 * Adds lyrics to songs from Genius.com.
 * Adds metadata to songs from Spotify.com.
 * Multiple options to format file name.
+
 <br>
+
 ----
 
 ##### > Adds artist name, album name, album art
