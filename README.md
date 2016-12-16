@@ -9,6 +9,7 @@
 * Multiple options to format file name.
 <br>
 ----
+
 ##### > Adds artist name, album name, album art
 <br>
 <img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800px" height="270px" />
