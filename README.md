@@ -9,7 +9,6 @@
 * Multiple options to format file name.
 <br>
 ----
-<br>
 ### Features
 ##### > Adds artist name, album name, album art
 <br>
