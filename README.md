@@ -7,7 +7,9 @@
 * Adds lyrics to songs from Genius.com.
 * Adds metadata to songs from Spotify.com.
 * Multiple options to format file name.
-
+<br>
+----
+### Features
 ##### > Adds artist name, album name, album art
 <br>
 <img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800px" height="270px" />
@@ -73,7 +75,7 @@ $ musicrepair
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
 
 <br>
-----
+
 License
 ----
 The MIT License (MIT)
