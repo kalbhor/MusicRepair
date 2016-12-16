@@ -61,7 +61,7 @@ optional arguments:
                         keywords will be replaced respectively:
                         {title}{artist}{album}
 ```
-
+<br>
 ----
 
 ### How to use
@@ -72,7 +72,8 @@ $ musicrepair
 
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
 
-
+<br>
+----
 License
 ----
 The MIT License (MIT)
