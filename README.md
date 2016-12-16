@@ -8,10 +8,8 @@
 * Ignores songs already containing metadata.
 * Changes file name to correct song title.
 
-<br>
-
-
 ##### > Adds artist name, album name, album art
+<br>
 <img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800px" height="270px" />
 <br>
 ##### > Adds Lyrics
@@ -64,14 +62,13 @@ optional arguments:
                         {title}{artist}{album}
 ```
 ----
+
 ### How to use
 ```sh
 $ musicrepair
 ```
 
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
-
-----
 
 License
 ----
