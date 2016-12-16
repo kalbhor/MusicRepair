@@ -1,12 +1,12 @@
 # MusicRepair
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.python.org/pypi/musicrepair)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-##### Fix .mp3 files in the current directory (Adds song details,album art)
+##### Fix .mp3 files in a directory (Adds song details,album art)
 
-* Fixes .mp3 files in the current working directory.
-* Adds lyrics to song.
-* Ignores songs already containing metadata.
-* Changes file name to correct song title.
+* Fixes .mp3 files in a nested directories recursively.
+* Adds lyrics to songs from Genius.com.
+* Adds metadata to songs from Spotify.com.
+* Multiple options to format file name.
 
 ##### > Adds artist name, album name, album art
 <br>
@@ -61,14 +61,17 @@ optional arguments:
                         keywords will be replaced respectively:
                         {title}{artist}{album}
 ```
+
 ----
 
 ### How to use
+
 ```sh
 $ musicrepair
 ```
 
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
+
 
 License
 ----
