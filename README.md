@@ -9,15 +9,15 @@
 * Changes file name to correct song title.
 
 <br>
-___
+
 
 ##### > Adds artist name, album name, album art
-<img src="https://s19.postimg.org/tll7uil4j/Before_After.png" width="689px" height="432px" />
+<img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800px" height="270px" />
 <br>
 ##### > Adds Lyrics
 <img src="https://s19.postimg.org/3rbf4ql4j/Screen_Shot_2016_11_28_at_2_37_00_AM.png" width="317px" height="350px" />
 <br>
-___
+----
 ### Installation
 
 ##### Python 2.x
@@ -31,7 +31,7 @@ $ pip3 install musicrepair
 ```
 (If it doesn't work for Windows users, check [this](https://github.com/lakshaykalbhor/MusicRepair/issues/9) out)
 <br>
-___
+----
 ### Options
 
 ```
@@ -63,7 +63,7 @@ optional arguments:
                         keywords will be replaced respectively:
                         {title}{artist}{album}
 ```
-___
+----
 ### How to use
 ```sh
 $ musicrepair
@@ -71,14 +71,8 @@ $ musicrepair
 
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
 
+----
 
-___
-### To do
-- [ ] Add view mode (Doesn't change metadata, just shows changes)
-- [x] Add a revert mode (Removes all metadata from songs)
-- [x] Add a no rename mode (Doesn't change file name)
-
-___
 License
 ----
 The MIT License (MIT)
