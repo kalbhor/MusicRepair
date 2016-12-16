@@ -3,9 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ##### Fix .mp3 files in a directory (Adds song details,album art)
 
-* Fixes .mp3 files in a nested directories recursively.
-* Adds lyrics to songs from Genius.com.
-* Adds metadata to songs from Spotify.com.
+* Fixes .mp3 files in nested directories recursively.
+* Adds lyrics to songs from genius.com.
+* Adds metadata to songs from spotify.com.
 * Multiple options to format file name.
 
 <br>
