@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='musicrepair',
-    version='5.2',
+    version='5.3',
     description='Lets you repair your music files by adding metadata and album art',
     url='https://github.com/lakshaykalbhor/musicrepair',
     author='Lakshay Kalbhor',
@@ -15,6 +15,7 @@ setup(
         'mutagen',
         'spotipy',
         'six',
+        'requests',
     ],
     entry_points={
         'console_scripts': ['musicrepair=musicrepair.command_line:main'],
