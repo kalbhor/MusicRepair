@@ -372,13 +372,22 @@ def fix_music(rename_format, norename=False, recursive=False):
             log(LOG_LINE_SEPERATOR)
 
 
-def revert_music():
+def revert_music(recursive=False):
 
-    if Py3:
-        files = [f for f in listdir('.') if f.endswith('.mp3')]
+    files = []
 
+    if recursive:
+        for dirpath, dirnames, filenames in walk("."):
+            for filename in [f for f in filenames if f.endswith(".mp3")]:
+                if Py3:
+                    files += [path.join(dirpath, filename)]
+                else:
+                    files += [path.join(dirpath, filename).decode('utf-8')]
     else:
-        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+        if Py3:
+            files = [f for f in listdir('.') if f.endswith('.mp3')]
+        else:
+            files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         log('Removing all metadata from %s' % file_name)
@@ -433,12 +442,7 @@ def main():
 
     elif arg_revert_dir and not arg_music_dir:
         chdir(arg_revert_dir)
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                chdir(dirpath)
-                revert_music()
-        else:
-            revert_music()
+        revert_music(recursive=arg_recursive)
 
         log_success()
 
