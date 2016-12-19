@@ -4,7 +4,6 @@
 Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
-
 from . import albumsearch
 from . import improvename
 
@@ -14,7 +13,8 @@ from os import \
     chdir, \
     listdir, \
     rename, \
-    walk
+    walk, \
+    path
 import difflib
 import six
 
@@ -289,17 +289,26 @@ def add_details(file_name, title, artist, album, lyrics=""):
     log_indented("[*] Album: %s " % album)
 
 
-def fix_music(rename_format, norename=False):
+def fix_music(rename_format, norename=False, recursive=False):
     '''
     Searches for '.mp3' files in directory (optionally recursive)
     and checks whether they already contain album art and album name tags or not.
     '''
+    files = []
 
-    if Py3:
-        files = [f for f in listdir('.') if f.endswith('.mp3')]
-
+    if recursive:
+        for dirpath, dirnames, filenames in walk("."):
+            for filename in [f for f in filenames if f.endswith(".mp3")]:
+                if Py3:
+                    files += [path.join(dirpath, filename)]
+                else:
+                    files += [path.join(dirpath, filename).decode('utf-8')]
     else:
-        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+        if Py3:
+            files = [f for f in listdir('.') if f.endswith('.mp3')]
+
+        else:
+            files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         tags = File(file_name)
@@ -409,23 +418,14 @@ def main():
 
     # Decide what to do
     if not arg_music_dir and not arg_revert_dir:
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                fix_music(arg_rename_format, norename=arg_norename)
-        else:
-            fix_music(arg_rename_format, norename=arg_norename)
+        fix_music(arg_rename_format, norename=arg_norename, recursive=arg_recursive)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
 
     elif arg_music_dir and not arg_revert_dir:
         chdir(arg_music_dir)
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                chdir(dirpath)
-                fix_music(arg_rename_format, norename=arg_norename)
-        else:
-            fix_music(arg_rename_format, norename=arg_norename)
+        fix_music(arg_rename_format, norename=arg_norename, recursive=arg_recursive)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
