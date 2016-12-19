@@ -20,7 +20,7 @@ def img_search_bing(album):
 
     album = album + " Album Art"
 
-    api_key = "API Key"
+    api_key = "Key"
     endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
     links_dict = {}
 

@@ -116,7 +116,7 @@ def get_lyrics_letssingit(song_name):
 
 def get_lyrics_genius(song_title):
     base_url = "http://api.genius.com"
-    headers = {'Authorization': 'Bearer (key)'}
+    headers = {'Authorization': 'Bearer (Key)'}
     search_url = base_url + "/search"
     data = {'q': song_title}
 
@@ -157,11 +157,11 @@ def get_details_spotify(song_name):
 
         try:
             log_indented("* Finding lyrics from Genius.com")
-            lyrics = get_lyrics_genius(song_title)
+            lyrics = get_lyrics_genius(artist+' '+song_title)
 
         except:
             log_error("* Could not find lyrics from Genius.com, trying something else", indented=True)
-            lyrics = get_lyrics_letssingit(song_title)
+            lyrics = get_lyrics_letssingit(artist+' '+song_title)
 
         match_bool, score = matching_details(song_name, song_title, artist)
         if match_bool:
