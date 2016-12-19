@@ -14,7 +14,8 @@ from os import \
     chdir, \
     listdir, \
     rename, \
-    walk
+    walk, \
+    path
 import difflib
 import six
 
@@ -289,17 +290,26 @@ def add_details(file_name, title, artist, album, lyrics=""):
     log_indented("[*] Album: %s " % album)
 
 
-def fix_music(rename_format, norename=False):
+def fix_music(rename_format, norename=False, recursive=False):
     '''
     Searches for '.mp3' files in directory (optionally recursive)
     and checks whether they already contain album art and album name tags or not.
     '''
+    files = []
 
-    if Py3:
-        files = [f for f in listdir('.') if f.endswith('.mp3')]
-
+    if recursive:
+        for dirpath, dirnames, filenames in walk("."):
+            for filename in [f for f in filenames if f.endswith(".mp3")]:
+                if Py3:
+                    files += [path.join(dirpath, filename)]
+                else:
+                    files += [path.join(dirpath, filename).decode('utf-8')]
     else:
-        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+        if Py3:
+            files = [f for f in listdir('.') if f.endswith('.mp3')]
+
+        else:
+            files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         tags = File(file_name)
@@ -350,7 +360,7 @@ def fix_music(rename_format, norename=False):
                     if not norename:
                         song_title = rename_format.format(title=song_name + '-', artist=artist + '-', album=album+'-')
                         song_title = song_title[:-1] if song_title.endswith('-') else song_title
-                        rename(file_name, '{song_title}.mp3'.format(song_title=song_title))
+                        rename(file_name, path.dirname(file_name) + '/{song_title}.mp3'.format(song_title=song_title))
                 except Exception:
                     pass
             else:
@@ -362,13 +372,22 @@ def fix_music(rename_format, norename=False):
             log(LOG_LINE_SEPERATOR)
 
 
-def revert_music():
+def revert_music(recursive=False):
 
-    if Py3:
-        files = [f for f in listdir('.') if f.endswith('.mp3')]
+    files = []
 
+    if recursive:
+        for dirpath, dirnames, filenames in walk("."):
+            for filename in [f for f in filenames if f.endswith(".mp3")]:
+                if Py3:
+                    files += [path.join(dirpath, filename)]
+                else:
+                    files += [path.join(dirpath, filename).decode('utf-8')]
     else:
-        files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
+        if Py3:
+            files = [f for f in listdir('.') if f.endswith('.mp3')]
+        else:
+            files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
     for file_name in files:
         log('Removing all metadata from %s' % file_name)
@@ -409,35 +428,21 @@ def main():
 
     # Decide what to do
     if not arg_music_dir and not arg_revert_dir:
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                fix_music(arg_rename_format, norename=arg_norename)
-        else:
-            fix_music(arg_rename_format, norename=arg_norename)
+        fix_music(arg_rename_format, norename=arg_norename, recursive=arg_recursive)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
 
     elif arg_music_dir and not arg_revert_dir:
         chdir(arg_music_dir)
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                chdir(dirpath)
-                fix_music(arg_rename_format, norename=arg_norename)
-        else:
-            fix_music(arg_rename_format, norename=arg_norename)
+        fix_music(arg_rename_format, norename=arg_norename, recursive=arg_recursive)
 
         open(LOG_FILENAME, 'w')  # Create log file (If it exists from prev session, truncate it)
         log_success()
 
     elif arg_revert_dir and not arg_music_dir:
         chdir(arg_revert_dir)
-        if arg_recursive:
-            for dirpath, _, _ in walk('.'):
-                chdir(dirpath)
-                revert_music()
-        else:
-            revert_music()
+        revert_music(recursive=arg_recursive)
 
         log_success()
 
