@@ -4,6 +4,7 @@
 Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
+
 from . import albumsearch
 from . import improvename
 
@@ -359,7 +360,7 @@ def fix_music(rename_format, norename=False, recursive=False):
                     if not norename:
                         song_title = rename_format.format(title=song_name + '-', artist=artist + '-', album=album+'-')
                         song_title = song_title[:-1] if song_title.endswith('-') else song_title
-                        rename(file_name, '{song_title}.mp3'.format(song_title=song_title))
+                        rename(file_name, path.dirname(file_name) + '/{song_title}.mp3'.format(song_title=song_title))
                 except Exception:
                     pass
             else:
