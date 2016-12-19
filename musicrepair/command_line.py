@@ -116,7 +116,7 @@ def get_lyrics_letssingit(song_name):
 
 def get_lyrics_genius(song_title):
     base_url = "http://api.genius.com"
-    headers = {'Authorization': 'Bearer (API CODE)'}
+    headers = {'Authorization': 'Bearer Key'}
     search_url = base_url + "/search"
     data = {'q': song_title}
 
