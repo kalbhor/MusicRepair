@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='musicrepair',
-    version='5.7',
+    version='5.8',
     description='Lets you repair your music files by adding metadata and album art',
     url='https://github.com/lakshaykalbhor/musicrepair',
     author='Lakshay Kalbhor',

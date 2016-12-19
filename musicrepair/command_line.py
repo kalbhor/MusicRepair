@@ -10,12 +10,9 @@ from . import improvename
 
 
 import argparse
-from os import \
-    chdir, \
-    listdir, \
-    rename, \
-    walk, \
-    path
+from os import chdir, listdir, rename, walk, path
+from os.path import basename
+
 import difflib
 import six
 
@@ -267,22 +264,22 @@ def add_albumart(albumart, song_title):
     log("> Added album art")
 
 
-def add_details(file_name, title, artist, album, lyrics=""):
+def add_details(file_path, title, artist, album, lyrics=""):
     '''
     Adds the details to song
     '''
 
-    tags = EasyMP3(file_name)
+    tags = EasyMP3(file_path)
     tags["title"] = title
     tags["artist"] = artist
     tags["album"] = album
     tags.save()
 
-    tags = ID3(file_name)
+    tags = ID3(file_path)
     uslt_output = USLT(encoding=3, lang=u'eng', desc=u'desc', text=lyrics)
     tags["USLT::'eng'"] = uslt_output
 
-    tags.save(file_name)
+    tags.save(file_path)
 
     log("> Adding properties")
     log_indented("[*] Title: %s" % title)
@@ -298,7 +295,7 @@ def fix_music(rename_format, norename=False, recursive=False):
     files = []
 
     if recursive:
-        for dirpath, dirnames, filenames in walk("."):
+        for dirpath, _, filenames in walk("."):
             for filename in [f for f in filenames if f.endswith(".mp3")]:
                 if Py3:
                     files += [path.join(dirpath, filename)]
@@ -311,8 +308,9 @@ def fix_music(rename_format, norename=False, recursive=False):
         else:
             files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
-    for file_name in files:
-        tags = File(file_name)
+    for file_path in files:
+        tags = File(file_path)
+        file_name = basename(file_path)[:-4] #Gets file name and removes .mp3 for better search results
 
         if 'APIC:Cover' in tags.keys() and 'TALB' in tags.keys():  # Checks whether there is album art and album name
             log('%s already has tags ' % tags["TIT2"])
@@ -321,7 +319,7 @@ def fix_music(rename_format, norename=False, recursive=False):
             album = tags["TALB"].text[0]
             log(LOG_LINE_SEPERATOR)
 
-            log(file_name)
+            log(file_path)
             log('> Adding metadata')
 
             try:
@@ -329,12 +327,12 @@ def fix_music(rename_format, norename=False, recursive=False):
             except Exception:
                 albumart = albumsearch.img_search_bing(album)
 
-            add_albumart(albumart, file_name)
+            add_albumart(albumart, file_path)
 
         else:
             log(LOG_LINE_SEPERATOR)
 
-            log(file_name)
+            log(file_path)
             log('> Adding metadata')
 
             try:
@@ -347,26 +345,26 @@ def fix_music(rename_format, norename=False, recursive=False):
 
             try:
                 log_indented('* Trying to extract album art from Google.com')
-                albumart = albumsearch.img_search_google(album)
+                albumart = albumsearch.img_search_google(artist+' '+album)
             except Exception:
                 log_indented('* Trying to extract album art from Bing.com')
-                albumart = albumsearch.img_search_bing(album)
+                albumart = albumsearch.img_search_bing(arist+' '+album)
 
             if match_bool:
-                add_albumart(albumart, file_name)
-                add_details(file_name, song_name, artist, album, lyrics)
+                add_albumart(albumart, file_path)
+                add_details(file_path, song_name, artist, album, lyrics)
 
                 try:
                     if not norename:
                         song_title = rename_format.format(title=song_name + '-', artist=artist + '-', album=album+'-')
                         song_title = song_title[:-1] if song_title.endswith('-') else song_title
-                        rename(file_name, path.dirname(file_name) + '/{song_title}.mp3'.format(song_title=song_title))
+                        rename(file_path, path.dirname(file_path) + '/{song_title}.mp3'.format(song_title=song_title))
                 except Exception:
                     pass
             else:
                 log_error("* Couldn't find appropriate details of your song", indented=True)
                 with open(LOG_FILENAME, "a") as problems:
-                    problems.write(str(file_name) + '\n')  # log song that couldn't be repaired
+                    problems.write(str(file_path) + '\n')  # log song that couldn't be repaired
 
             log("Match score: %s/10.0" % round(score * 10, 1))
             log(LOG_LINE_SEPERATOR)
@@ -377,7 +375,7 @@ def revert_music(recursive=False):
     files = []
 
     if recursive:
-        for dirpath, dirnames, filenames in walk("."):
+        for dirpath, _, filenames in walk("."):
             for filename in [f for f in filenames if f.endswith(".mp3")]:
                 if Py3:
                     files += [path.join(dirpath, filename)]
@@ -389,9 +387,9 @@ def revert_music(recursive=False):
         else:
             files = [f.decode('utf-8') for f in listdir('.') if f.endswith('.mp3')]
 
-    for file_name in files:
-        log('Removing all metadata from %s' % file_name)
-        tags = EasyMP3(file_name)
+    for file_path in files:
+        log('Removing all metadata from %s' % file_path)
+        tags = EasyMP3(file_path)
         tags.delete()
         tags.save()
 
