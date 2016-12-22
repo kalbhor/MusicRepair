@@ -20,6 +20,37 @@
 <img src="https://s19.postimg.org/3rbf4ql4j/Screen_Shot_2016_11_28_at_2_37_00_AM.png" width="317px" height="350px" />
 <br>
 ----
+
+### APIs Required  
+
+##### Fetch API keys from [Genius.com](https://genius.com/api-clients)
+
+1. Create an account and register an application 
+2. Grab Access Token
+3. Set environment variable in your bashrc/zshrc file
+
+```sh 
+export GENIUS_LYRICS_KEY=YOUR KEY 
+```
+
+<img src="https://s29.postimg.org/k4ga1gmsn/Genius_API.png" width="543px" height="362px" />
+<br>
+
+
+##### Fetch image search API keys from [Microsoft.com](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
+
+1. Create an account
+2. Grab Access Token
+3. Set environment variable in your bashrc/zshrc file
+
+```sh
+export BING_IMG_KEY=YOUR KEY 
+```
+
+<img src="https://s29.postimg.org/yibo1if7r/Bing_Key.png" width="1150px" height="210px" />
+<br>
+----
+
 ### Installation
 
 ##### Python 2.x
