@@ -1,12 +1,12 @@
 '''
 Return Album Art url
 '''
-
+from . import log
 import requests
 import json
 from bs4 import BeautifulSoup
 import six
-
+from os import environ
 
 if six.PY2:
     from urllib2 import urlopen, Request
@@ -14,6 +14,14 @@ if six.PY2:
 elif six.PY3:
     from urllib.parse import quote
     from urllib.request import urlopen, Request
+
+LOG_LINE_SEPERATOR = '........................\n'
+
+try:
+    BING_KEY = environ['BING_IMG_KEY']
+
+except KeyError:
+    log.log_error('Warning, BING_IMG_KEY not added in environment variables')
 
 def img_search_bing(album):
     ''' Bing image search '''
@@ -24,7 +32,7 @@ def img_search_bing(album):
     endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
     links_dict = {}
 
-    headers = {'Ocp-Apim-Subscription-Key': api_key}
+    headers = {'Ocp-Apim-Subscription-Key': str(BING_KEY)}
     param = {'q': album, 'count': '1'}
 
     response = requests.get(endpoint, headers=headers, params=param)
