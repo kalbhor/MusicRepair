@@ -1,5 +1,7 @@
 '''
-Return Album Art url
+Returns Album Art url
+
+Bing search requires API key. (Fetches it from environment varibles)
 '''
 from . import log
 import requests
