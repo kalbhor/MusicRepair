@@ -70,7 +70,12 @@ def img_search_google(album):
     soup = BeautifulSoup(urlopen(Request(url, headers=header)), "html.parser")
 
     albumart_div = soup.find("div", {"class": "rg_meta"})
-    albumart = json.loads(albumart_div.text)["ou"]
     
-    return albumart
+    try:
+        albumart = json.loads(albumart_div.text)["ou"]
+        return albumart
+    except:
+        pass
+    
+    return ''
 
