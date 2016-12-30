@@ -5,13 +5,9 @@ Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
 
-from . import albumsearch
-from . import improvename
-from . import log
-
 import argparse
 from os import chdir, listdir, rename, walk, path, environ
-from os.path import basename
+from os.path import basename, dirname
 
 import difflib
 import six
@@ -24,6 +20,10 @@ from mutagen.mp3 import EasyMP3
 from mutagen import File
 
 import spotipy
+
+from . import albumsearch
+from . import improvename
+from . import log
 
 if six.PY2:
     from urllib2 import urlopen
@@ -43,6 +43,12 @@ try:
 
 except KeyError:
     log.log_error('Warning, GENIUS_LYRICS_KEY not added in environment variables')
+
+try:
+    BING_KEY = environ['BING_IMG_KEY']
+
+except KeyError:
+    log.log_error('Warning, BING_IMG_KEY not added in environment variables')
 
 
 def matching_details(song_name, song_title, artist):
@@ -304,7 +310,7 @@ def fix_music(rename_format, norename=False, recursive=False):
             try:
                 albumart = albumsearch.img_search_google(album)
             except Exception:
-                albumart = albumsearch.img_search_bing(album)
+                albumart = albumsearch.img_search_bing(album, BING_KEY)
 
             add_albumart(albumart, file_path)
 
@@ -319,6 +325,7 @@ def fix_music(rename_format, norename=False, recursive=False):
                     file_name)  # Try finding details through spotify
 
             except Exception:
+                log.log_error("* Couldn't find metadata from Spotify, trying something else")
                 artist, album, song_name, lyrics, match_bool, score = get_details_letssingit(
                     file_name)  # Use bad scraping method as last resort
 
@@ -428,4 +435,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()

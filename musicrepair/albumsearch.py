@@ -3,7 +3,7 @@ Returns Album Art url
 
 Bing search requires API key. (Fetches it from environment varibles)
 '''
-from . import log
+
 import requests
 import json
 from bs4 import BeautifulSoup
@@ -19,13 +19,9 @@ elif six.PY3:
 
 LOG_LINE_SEPERATOR = '........................\n'
 
-try:
-    BING_KEY = environ['BING_IMG_KEY']
 
-except KeyError:
-    log.log_error('Warning, BING_IMG_KEY not added in environment variables')
 
-def img_search_bing(album):
+def img_search_bing(album, key):
     ''' Bing image search '''
 
     album = album + " Album Art"
@@ -34,7 +30,7 @@ def img_search_bing(album):
     endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
     links_dict = {}
 
-    headers = {'Ocp-Apim-Subscription-Key': str(BING_KEY)}
+    headers = {'Ocp-Apim-Subscription-Key': key}
     param = {'q': album, 'count': '1'}
 
     response = requests.get(endpoint, headers=headers, params=param)
@@ -78,4 +74,6 @@ def img_search_google(album):
         pass
     
     return ''
+
+
 
