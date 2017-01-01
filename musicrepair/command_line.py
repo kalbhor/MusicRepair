@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 
-'''
+r'''
+  __  __           _      _____                  _      
+ |  \/  |         (_)    |  __ \                (_)     
+ | \  / |_   _ ___ _  ___| |__) |___ _ __   __ _ _ _ __ 
+ | |\/| | | | / __| |/ __|  _  // _ \ '_ \ / _` | | '__|
+ | |  | | |_| \__ \ | (__| | \ \  __/ |_) | (_| | | |   
+ |_|  |_|\__,_|___/_|\___|_|  \_\___| .__/ \__,_|_|_|   
+                                    | |                 
+                                    |_|                 
+
 Tries to find the metadata of songs based on the file name
 https://github.com/lakshaykalbhor/MusicRepair
 '''
