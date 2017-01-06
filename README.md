@@ -36,7 +36,7 @@
 
 ## Dependencies  
 
-### Genius API [Genius](https://genius.com/api-clients)
+### [Genius API](https://genius.com/api-clients)
 
 1. Create an account and register an application 
 2. Grab Access Token
@@ -46,7 +46,7 @@
 export GENIUS_LYRICS_KEY=YOUR KEY 
 ```
 
-### Bing search API [Microsoft](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
+### [Bing Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
 
 1. Create an account
 2. Grab Access Token
