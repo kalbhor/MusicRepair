@@ -2,17 +2,16 @@
 
 # MusicRepair
 
-[![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.python.org/pypi/musicrepair)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/MusicRepair/Lobby)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 > MusicRepair is a python script that fixes your music by adding important tags such as : album name, artist name, lyrics and album art.
 
-## Show some :heart:
+## Show :heart:
 
 [![GitHub stars](https://img.shields.io/github/stars/lakshaykalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/lakshaykalbhor/musicrepair)
-[![GitHub followers](https://img.shields.io/github/followers/lakshaykalbhor.svg?style=social&label=Follow)](https://github.com/lakshaykalbhor/musicrepair)  
+[![GitHub followers](https://img.shields.io/github/followers/lakshaykalbhor.svg?style=social&label=Follow)](https://github.com/lakshaykalbhor)  
 [![Twitter Follow](https://img.shields.io/twitter/follow/lakshayisfunny.svg?style=social)](https://twitter.com/lakshayisfunny)
 
 
@@ -30,17 +29,14 @@
 
 ## Features
 
-* Fixes songs in nested directories recursively.
-* Fetches lyrics from [Genius](https://www.genius.com)
-* Fetches metadata from [Spotify](https://www.spotify.com)
-* Multiple options to format file name. eg : {artist}{title} results in : Pink Floyd - Time
-
-#### > Adds Lyrics
-<img src="https://s19.postimg.org/3rbf4ql4j/Screen_Shot_2016_11_28_at_2_37_00_AM.png" width="317px" height="350px" />
+1. Fixes songs in nested directories recursively.
+2. Fetches lyrics from [Genius](https://www.genius.com)
+3. Fetches metadata from [Spotify](https://www.spotify.com)
+4. Multiple options to format file name. eg : {artist}{title} results in : Pink Floyd - Time
 
 ## Dependencies  
 
-#### Genius API [Genius](https://genius.com/api-clients)
+### Genius API [Genius](https://genius.com/api-clients)
 
 1. Create an account and register an application 
 2. Grab Access Token
@@ -50,7 +46,7 @@
 export GENIUS_LYRICS_KEY=YOUR KEY 
 ```
 
-#### Bing Search API [Microsoft](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
+### Bing search API [Microsoft](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
 
 1. Create an account
 2. Grab Access Token
@@ -62,12 +58,12 @@ export BING_IMG_KEY=YOUR KEY
 
 ## Installation
 
-#### PyPI
+### PyPI
 ```sh
 $ pip install musicrepair
 ```
 
-#### Source
+### Source
 ```sh
 $ git clone https://github.com/lakshaykalbhor/MusicRepair
 $ cd MusicRepair
@@ -84,7 +80,7 @@ $ musicrepair
 
 [![Usage](https://s18.postimg.org/53imrt015/Screen_Shot_2016_12_11_at_1_42_02_AM.png)](https://www.youtube.com/watch?v=UqsmRIIeTpg "MusicRepair - Usage")
 
-#### Options
+### Options
 ```
 $ musicrepair -h
 usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-R] [-r REVERT_DIRECTORY] [-n]
@@ -115,8 +111,13 @@ optional arguments:
                         {title}{artist}{album}
 ```
 
+## Contribute
 
-License
+Found an issue? Post it in the [issue tracker](https://github.com/lakshaykalbhor/MusicRepair/issues). <br> 
+Want to add another awesome feature? [Fork](https://github.com/lakshaykalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
+
+## License
 ----
 The MIT License (MIT)
 Copyright (c) 2017 Lakshay Kalbhor
+
