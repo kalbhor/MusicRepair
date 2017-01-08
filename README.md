@@ -117,7 +117,6 @@ Found an issue? Post it in the [issue tracker](https://github.com/lakshaykalbhor
 Want to add another awesome feature? [Fork](https://github.com/lakshaykalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
 
 ## License
-----
 The MIT License (MIT)
 Copyright (c) 2017 Lakshay Kalbhor
 
