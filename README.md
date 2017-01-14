@@ -8,7 +8,7 @@
 
 > MusicRepair is a python script that fixes your music by adding important tags such as : album name, artist name, lyrics and album art.
 
-## Show :heart:
+## Social:
 
 [![GitHub stars](https://img.shields.io/github/stars/lakshaykalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/lakshaykalbhor/musicrepair)
 [![GitHub followers](https://img.shields.io/github/followers/lakshaykalbhor.svg?style=social&label=Follow)](https://github.com/lakshaykalbhor)  
