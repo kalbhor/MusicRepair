@@ -40,20 +40,19 @@
 
 1. Create an account and register an application 
 2. Grab Access Token
-3. Set environment variable in your bashrc/zshrc file
-
-```sh 
-export GENIUS_LYRICS_KEY=YOUR KEY 
-```
+3. Set access token in config file
 
 ### [Bing Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
 
 1. Create an account
 2. Grab Access Token
-3. Set environment variable in your bashrc/zshrc file
+3. Set access token in config file
 
-```sh
-export BING_IMG_KEY=YOUR KEY 
+```sh 
+$ musicrepair --config                                               
+     
+Enter Genius key : <enter genius key>                                 
+Enter Bing key : <enter bing key>
 ```
 
 ## Installation
@@ -83,31 +82,44 @@ $ musicrepair
 ### Options
 ```
 $ musicrepair -h
-usage: musicrepair [-h] [-d REPAIR_DIRECTORY] [-R] [-r REVERT_DIRECTORY] [-n]
-                   [--format RENAME_FORMAT]
+  __  __           _      _____                  _
+ |  \/  |         (_)    |  __ \                (_)
+ | \  / |_   _ ___ _  ___| |__) |___ _ __   __ _ _ _ __
+ | |\/| | | | / __| |/ __|  _  // _ \ '_ \ / _` | | '__|
+ | |  | | |_| \__ \ | (__| | \ \  __/ |_) | (_| | | |
+ |_|  |_|\__,_|___/_|\___|_|  \_\___| .__/ \__,_|_|_|
+                                    | |
+                                    |_|
 
-Fix .mp3 files in any directory (Adds song details, album art)
+______________________________________________________________
+|                                                            |
+| Tries to find the metadata of songs based on the file name |
+|                                                            |
+| Update : pip install musicrepair -U                        |
+|                                                            |
+| https://github.com/lakshaykalbhor/MusicRepair              |
+|____________________________________________________________|
 
 optional arguments:
-
   -h, --help            show this help message and exit
   
-  -d , --dir 
-                        Specifies the directory where the music files are
-                        located
-                        
-  -R, --recursive       Specifies whether or not to run recursively in the
-                        given music directory
-                        
-  -r , --revert
-                        Specifies the directory where music files that need to
-                        be reverted are located
-                        
+  -c, --config          Add API keys to config
+
+  -d REPAIR_DIRECTORY, --dir REPAIR_DIRECTORY
+                        Specifies the directory where the music files are located
+
+  -R, --recursive       Specifies whether or not to run recursively
+                                                in the given music directory
+
+  -r REVERT_DIRECTORY, --revert REVERT_DIRECTORY
+                        Specifies the directory where music files
+                                                that need to be reverted are located
+
   -n, --norename        Does not rename files to song title
-  
-  --format
-                        Specify the title format used in renaming, these
-                        keywords will be replaced respectively:
+
+  --format RENAME_FORMAT
+                        Specify the title format used in renaming,
+                        these keywords will be replaced respectively:
                         {title}{artist}{album}
 ```
 
