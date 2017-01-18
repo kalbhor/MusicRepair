@@ -4,3 +4,4 @@ mutagen
 spotipy
 six
 requests
+configparser
