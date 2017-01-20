@@ -12,7 +12,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/lakshaykalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/lakshaykalbhor/musicrepair)
 [![GitHub followers](https://img.shields.io/github/followers/lakshaykalbhor.svg?style=social&label=Follow)](https://github.com/lakshaykalbhor)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/lakshayisfunny.svg?style=social)](https://twitter.com/lakshayisfunny)
+[![Twitter Follow](https://img.shields.io/twitter/follow/lakshaykalbhor.svg?style=social)](https://twitter.com/lakshaykalbhor)
 
 
 ## Table of Contents
