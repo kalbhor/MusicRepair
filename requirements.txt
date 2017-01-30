@@ -1,0 +1,7 @@
+bs4
+colorama
+mutagen
+spotipy
+six
+requests
+configparser
