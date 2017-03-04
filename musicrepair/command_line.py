@@ -21,25 +21,21 @@ ______________________________________________________________
 
 """
 
-
-from bs4 import BeautifulSoup
 import requests
-
 import argparse
-from argparse import RawTextHelpFormatter
 import configparser
-from colorama import init, deinit, Fore
 import difflib
 import six
-
 import spotipy
+
+from bs4 import BeautifulSoup
+from colorama import init, deinit, Fore
+from argparse import RawTextHelpFormatter
 from mutagen.id3 import ID3, APIC, USLT, _util
 from mutagen.mp3 import EasyMP3
 from mutagen import File
-
 from os import chdir, listdir, rename, walk, path, environ
 from os.path import basename, dirname, realpath
-
 
 try:
     from . import albumsearch
