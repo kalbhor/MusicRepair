@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='musicrepair',
-    version='6.0.4',
+    version='6.1.0',
     description='Lets you repair your music files by adding metadata and album art',
     url='https://github.com/lakshaykalbhor/musicrepair',
     author='Lakshay Kalbhor',
@@ -10,11 +10,8 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'bs4',
-        'colorama',
+        'musictools',
         'mutagen',
-        'spotipy',
-        'six',
         'requests',
         'configparser',
     ],
