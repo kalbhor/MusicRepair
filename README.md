@@ -42,17 +42,10 @@
 2. Grab Access Token
 3. Set access token in config file
 
-### [Bing Search API](https://www.microsoft.com/cognitive-services/en-us/bing-image-search-api)
-
-1. Create an account
-2. Grab Access Token
-3. Set access token in config file
-
 ```sh 
 $ musicrepair --config                                               
      
 Enter Genius key : <enter genius key>                                 
-Enter Bing key : <enter bing key>
 ```
 
 ## Installation
@@ -105,20 +98,17 @@ optional arguments:
   
   -c, --config          Add API keys to config
 
-  -d REPAIR_DIRECTORY, --dir REPAIR_DIRECTORY
-                        Specifies the directory where the music files are located
+  -d, --dir             Specifies the directory where the music files are located
 
   -R, --recursive       Specifies whether or not to run recursively
-                                                in the given music directory
+                        in the given music directory
 
-  -r REVERT_DIRECTORY, --revert REVERT_DIRECTORY
-                        Specifies the directory where music files
-                                                that need to be reverted are located
+  -r, --revert          Specifies the directory where music files
+                        that need to be reverted are located
 
   -n, --norename        Does not rename files to song title
 
-  --format RENAME_FORMAT
-                        Specify the title format used in renaming,
+  --format              Specify the title format used in renaming,
                         these keywords will be replaced respectively:
                         {title}{artist}{album}
 ```
@@ -127,6 +117,7 @@ optional arguments:
 
 Found an issue? Post it in the [issue tracker](https://github.com/lakshaykalbhor/MusicRepair/issues). <br> 
 Want to add another awesome feature? [Fork](https://github.com/lakshaykalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
+The core features of this project are based on [MusicTools](https://github.com/lakshaykalbhor/MusicTools); contribute to it if you'd like.
 
 ## License
 The MIT License (MIT)
