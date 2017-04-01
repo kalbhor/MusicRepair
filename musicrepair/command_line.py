@@ -121,10 +121,15 @@ def fix_music(rename_format, norename, files):
         else:
             print('> ' + file_path)
 
-            artist, album, song_name, albumart = musictools.get_metadata(file_name) 
-            add_lyrics_genius(file_path, file_name)
-            musictools.add_albumart(file_path, albumart)
-            musictools.add_metadata(file_path, song_name, artist, album)
+            try:
+                artist, album, song_name, albumart = musictools.get_metadata(file_name) 
+                add_lyrics_genius(file_path, file_name)
+                musictools.add_albumart(file_path, albumart)
+                musictools.add_metadata(file_path, song_name, artist, album)
+
+            except:# MetadataNotFound
+                song_name = file_name
+                print('Could not find metadata')
 
             print('{}\n{}\n{}\n'.format(song_name, album, artist))
 
@@ -210,6 +215,7 @@ def main():
         chdir(revert_dir)
         files = list_files(recursive)
         musictools.revert_music(files)
+        print('> Files have been reverted')
 
     if music_dir:
         chdir(music_dir or '.')
