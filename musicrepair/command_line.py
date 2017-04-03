@@ -214,7 +214,7 @@ def main():
     if revert_dir:
         chdir(revert_dir)
         files = list_files(recursive)
-        musictools.revert_music(files)
+        musictools.revert_metadata(files)
         print('> Files have been reverted')
 
     if music_dir:
