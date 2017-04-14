@@ -10,9 +10,9 @@
 
 ## Social:
 
-[![GitHub stars](https://img.shields.io/github/stars/lakshaykalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/lakshaykalbhor/musicrepair)
-[![GitHub followers](https://img.shields.io/github/followers/lakshaykalbhor.svg?style=social&label=Follow)](https://github.com/lakshaykalbhor)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/lakshaykalbhor.svg?style=social)](https://twitter.com/lakshaykalbhor)
+[![GitHub stars](https://img.shields.io/github/stars/kalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/kalbhor/musicrepair)
+[![GitHub followers](https://img.shields.io/github/followers/kalbhor.svg?style=social&label=Follow)](https://github.com/kalbhor)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/kalbhor.svg?style=social)](https://twitter.com/lakshaykalbhor)
 
 
 ## Table of Contents
@@ -57,12 +57,12 @@ $ pip install musicrepair
 
 ### Source
 ```sh
-$ git clone https://github.com/lakshaykalbhor/MusicRepair
+$ git clone https://github.com/kalbhor/MusicRepair
 $ cd MusicRepair
 $ python setup.py install
 ```
 
-Windows users, check [this](https://github.com/lakshaykalbhor/MusicRepair/issues/9) out
+Windows users, check [this](https://github.com/kalbhor/MusicRepair/issues/9) out
 
 ## Usage
 
@@ -90,7 +90,7 @@ ______________________________________________________________
 |                                                            |
 | Update : pip install musicrepair -U                        |
 |                                                            |
-| https://github.com/lakshaykalbhor/MusicRepair              |
+| https://github.com/kalbhor/MusicRepair                     |
 |____________________________________________________________|
 
 optional arguments:
@@ -115,9 +115,9 @@ optional arguments:
 
 ## Contribute
 
-Found an issue? Post it in the [issue tracker](https://github.com/lakshaykalbhor/MusicRepair/issues). <br> 
-Want to add another awesome feature? [Fork](https://github.com/lakshaykalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
-The core features of this project are based on [MusicTools](https://github.com/lakshaykalbhor/MusicTools); contribute to it if you'd like.
+Found an issue? Post it in the [issue tracker](https://github.com/kalbhor/MusicRepair/issues). <br> 
+Want to add another awesome feature? [Fork](https://github.com/kalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
+The core features of this project are based on [MusicTools](https://github.com/kalbhor/MusicTools); contribute to it if you'd like.
 
 ## License
 The MIT License (MIT)
