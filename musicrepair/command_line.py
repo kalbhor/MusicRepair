@@ -124,7 +124,7 @@ def fix_music(rename_format, norename, files):
             try:
                 artist, album, song_name, albumart = musictools.get_metadata(file_name) 
                 add_lyrics_genius(file_path, file_name)
-                musictools.add_albumart(file_path, albumart)
+                musictools.add_album_art(file_path, albumart)
                 musictools.add_metadata(file_path, song_name, artist, album)
 
             except:# MetadataNotFound
