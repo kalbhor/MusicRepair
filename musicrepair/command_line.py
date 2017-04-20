@@ -127,8 +127,11 @@ def fix_music(rename_format, norename, files):
                 musictools.add_album_art(file_path, albumart)
                 musictools.add_metadata(file_path, song_name, artist, album)
 
-            except:# MetadataNotFound
+            except Exception as e:# MetadataNotFound
+                print(e)
                 song_name = file_name
+                album = "Unkown"
+                artist = "Unkown"
                 print('Could not find metadata')
 
             print('{}\n{}\n{}\n'.format(song_name, album, artist))
@@ -211,18 +214,19 @@ def main():
     if config:
         add_config()
 
-    if revert_dir:
-        chdir(revert_dir)
-        files = list_files(recursive)
-        musictools.revert_metadata(files)
-        print('> Files have been reverted')
-
     if music_dir:
         chdir(music_dir or '.')
         files = list_files(recursive)
         fix_music(rename_format, norename, files)
         open('musicrepair_log.txt', 'w')
         print('\n\nFinished repairing')
+        
+    if revert_dir:
+        chdir(revert_dir)
+        files = list_files(recursive)
+        musictools.revert_metadata(files)
+        print('> Files have been reverted')
+
 
 
 if __name__ == '__main__':
