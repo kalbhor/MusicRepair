@@ -201,7 +201,7 @@ def main():
     args = parser.parse_args()
 
     # Collect all the args
-    music_dir = args.repair_directory
+    music_dir = args.repair_directory or '.'
     revert_dir = args.revert_directory
     recursive = args.recursive or False
     norename = args.norename or False
