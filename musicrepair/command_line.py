@@ -24,7 +24,6 @@ ______________________________________________________________
 import requests
 import argparse
 import configparser
-from argparse import RawTextHelpFormatter
 from mutagen.id3 import ID3
 from mutagen import File
 from os import chdir, listdir, rename, walk, path, environ
@@ -177,7 +176,7 @@ def main():
     setup()
 
     parser = argparse.ArgumentParser(
-    description="{}".format(DESC), formatter_class=RawTextHelpFormatter)
+    description="{}".format(DESC), formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-c', '--config', action='store_true',
                         help='Add API keys to config\n\n')
