@@ -213,18 +213,19 @@ def main():
     if config:
         add_config()
 
-    if music_dir:
+    if revert_dir:
+        chdir(revert_dir)
+        files = list_files(recursive)
+        musictools.revert_metadata(files)
+        print('> Files have been reverted')
+
+    elif music_dir:
         chdir(music_dir or '.')
         files = list_files(recursive)
         fix_music(rename_format, norename, files)
         open('musicrepair_log.txt', 'w')
         print('\n\nFinished repairing')
         
-    if revert_dir:
-        chdir(revert_dir)
-        files = list_files(recursive)
-        musictools.revert_metadata(files)
-        print('> Files have been reverted')
 
 
 
