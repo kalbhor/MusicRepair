@@ -24,9 +24,15 @@
     <a href="https://mavielinux.com/2016/12/11/musicrepair-pour-corriger-les-titresajouter-les-metadonnees-et-les-pochettes-de-vos-musiques/">
 		<img width="70px" src="http://i.imgur.com/TklsaII.png"/>
 	</a>
+	&nbsp;&nbsp;&nbsp;
     <a href="http://blog.desdelinux.net/reparar-archivos-de-musica/">
 		<img width="160px" src="http://i.imgur.com/eV1WxYZ.png"/>
 	</a>
+	&nbsp;&nbsp;&nbsp;
+    <a href="https://www.reddit.com/r/learnpython/comments/5gzvcb/i_made_a_script_that_would_fix_your_music_files/">
+		<img width="160px" src="http://i.imgur.com/Jk8PgIb.png"/>
+	</a>
+	&nbsp;&nbsp;&nbsp;
 </p>
 
 ## Table of Contents
@@ -50,7 +56,8 @@
 
 ## Dependencies  
 
-### [Genius API](https://genius.com/api-clients)
+##### (Optional)
+### [Genius API](https://genius.com/api-clients) 
 
 1. Create an account and register an application 
 2. Grab Access Token
@@ -89,23 +96,6 @@ $ musicrepair
 ### Options
 ```
 $ musicrepair -h
-  __  __           _      _____                  _
- |  \/  |         (_)    |  __ \                (_)
- | \  / |_   _ ___ _  ___| |__) |___ _ __   __ _ _ _ __
- | |\/| | | | / __| |/ __|  _  // _ \ '_ \ / _` | | '__|
- | |  | | |_| \__ \ | (__| | \ \  __/ |_) | (_| | | |
- |_|  |_|\__,_|___/_|\___|_|  \_\___| .__/ \__,_|_|_|
-                                    | |
-                                    |_|
-
-______________________________________________________________
-|                                                            |
-| Tries to find the metadata of songs based on the file name |
-|                                                            |
-| Update : pip install musicrepair -U                        |
-|                                                            |
-| https://github.com/kalbhor/MusicRepair                     |
-|____________________________________________________________|
 
 optional arguments:
   -h, --help            show this help message and exit
