@@ -1,25 +1,39 @@
-<img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800px" height="270px" />
 
-# MusicRepair
+<p align="center">
+    <img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800">    
+</p>
+<p align="center">
+  <b>Adds Metadata to Music files</b>
+</p>
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/MusicRepair/Lobby)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+<p align="center">
+    <a href="https://github.com/kalbhor/musicrepair/LICENSE">
+		<img alt="License"  src="https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square"/>
+	</a>    
+	<a href="https://gitter.im/MusicRepair/Lobby">
+		<img alt="gitter" src="https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square "/>
+	</a>        
+	<a href="https://github.com/kalbhor/musicrepair">
+		<img alt="stars" src="https://img.shields.io/github/stars/kalbhor/musicrepair.svg?style=social&label=Star"/>
+	</a>            
+</p>
 
-> MusicRepair is a python script that fixes your music by adding important tags such as : album name, artist name, lyrics and album art.
 
-## Social:
-
-[![GitHub stars](https://img.shields.io/github/stars/kalbhor/musicrepair.svg?style=social&label=Star)](https://github.com/kalbhor/musicrepair)
-[![GitHub followers](https://img.shields.io/github/followers/kalbhor.svg?style=social&label=Follow)](https://github.com/kalbhor)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/lakshaykalbhor.svg?style=social)](https://twitter.com/lakshaykalbhor)
-
+## Media
+<p align="left">
+    <a href="https://mavielinux.com/2016/12/11/musicrepair-pour-corriger-les-titresajouter-les-metadonnees-et-les-pochettes-de-vos-musiques/">
+		<img width="70px" src="http://i.imgur.com/TklsaII.png"/>
+	</a>
+    <a href="http://blog.desdelinux.net/reparar-archivos-de-musica/">
+		<img width="160px" src="http://i.imgur.com/eV1WxYZ.png"/>
+	</a>
+</p>
 
 ## Table of Contents
 
 - [Features](#features)
 - [Dependencies](#dependencies)
-- [Installation](#installation)
+- [Installing](#installing)
   - [PyPI](#pypi)
   - [Source](#source)
 - [Usage](#usage)
@@ -48,7 +62,7 @@ $ musicrepair --config
 Enter Genius key : <enter genius key>                                 
 ```
 
-## Installation
+## Installing
 
 ### PyPI
 ```sh
@@ -122,4 +136,3 @@ The core features of this project are based on [MusicTools](https://github.com/k
 ## License
 The MIT License (MIT)
 Copyright (c) 2017 Lakshay Kalbhor
-
