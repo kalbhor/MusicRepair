@@ -35,7 +35,7 @@ def setup():
     Gathers all configs
     """
 
-    global CONFIG, GENIUS_KEY, config_path 
+    global CONFIG, GENIUS_KEY, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, config_path 
 
     CONFIG = configparser.ConfigParser()
     config_path = realpath(__file__).replace(basename(__file__),'')
@@ -43,8 +43,15 @@ def setup():
     CONFIG.read(config_path)
 
     GENIUS_KEY = CONFIG['keys']['genius_key']
+    SPOTIFY_CLIENT_ID = CONFIG['keys']['spotify_client_id']
+    SPOTIFY_CLIENT_SECRET = CONFIG['keys']['spotify_client_secret']
 
 
+
+    if SPOTIFY_CLIENT_ID == '<insert spotify client id here>':
+        print('Warning, you are missing the Spotify client ID. Add it using --config\n\n')
+    if SPOTIFY_CLIENT_SECRET == '<insert spotify client secret here>':
+        print('Warning, you are missing the Spotify client secret. Add it using --config\n\n')
     if GENIUS_KEY == '<insert genius key here>':
         print('Warning, you are missing the Genius key. Add it using --config\n\n')
 
@@ -54,10 +61,14 @@ def add_config():
     Prompts user for API keys, adds them in an .ini file stored in the same
     location as that of the script
     """
-
-    genius_key = input('Enter Genius key : ')
+    spotify_client_id = raw_input('Enter Spotify client ID : ')
+    spotify_client_secret = raw_input('Enter Spotify client secret : ')
+    genius_key = raw_input('Enter Genius key : ')
 
     CONFIG['keys']['genius_key'] = genius_key
+    CONFIG['keys']['spotify_client_id'] = spotify_client_id
+    CONFIG['keys']['spotify_client_secret'] = spotify_client_secret
+
 
     with open(config_path, 'w') as configfile:
         CONFIG.write(configfile)
@@ -121,7 +132,7 @@ def fix_music(rename_format, norename, files):
             print('> ' + file_path)
 
             try:
-                artist, album, song_name, albumart = musictools.get_metadata(file_name) 
+                artist, album, song_name, albumart = musictools.get_metadata(file_name, SPOTIFY_CLIENT_ID , SPOTIFY_CLIENT_SECRET) 
                 add_lyrics_genius(file_path, file_name)
                 musictools.add_album_art(file_path, albumart)
                 musictools.add_metadata(file_path, song_name, artist, album)
@@ -129,8 +140,8 @@ def fix_music(rename_format, norename, files):
             except Exception as e:# MetadataNotFound
                 print(e)
                 song_name = file_name
-                album = "Unkown"
-                artist = "Unkown"
+                album = "Unknown"
+                artist = "Unknown"
                 print('Could not find metadata')
 
             print('{}\n{}\n{}\n'.format(song_name, album, artist))
