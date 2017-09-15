@@ -57,6 +57,12 @@
 ## Dependencies  
 
 ##### (Optional)
+### [Spotify API](https://developer.spotify.com/my-applications)
+
+1. Create an account and register an application.
+2. Copy the Client ID and Client Secret.
+3. Set Spotify Client ID and Spotify Client Secret in config file 
+
 ### [Genius API](https://genius.com/api-clients) 
 
 1. Create an account and register an application 
@@ -65,7 +71,8 @@
 
 ```sh 
 $ musicrepair --config                                               
-     
+Enter Spotify client ID : <enter Spotify client ID>  
+Enter Spotify client secret : <enter Spotify client secret>       
 Enter Genius key : <enter genius key>                                 
 ```
 
