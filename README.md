@@ -56,19 +56,20 @@
 
 ## Dependencies  
 
-##### (Optional)
 ### [Spotify API](https://developer.spotify.com/my-applications)
 
 1. Create an account and register an application.
 2. Copy the Client ID and Client Secret.
-3. Set Spotify Client ID and Spotify Client Secret in config file 
+3. Set them in config file (Or just enter them after running ```musicrepair --config```)
 
 ### [Genius API](https://genius.com/api-clients) 
+##### (Optional : For fetching lyrics)
 
 1. Create an account and register an application 
 2. Grab Access Token
 3. Set access token in config file
 
+### Set them using ```--config```
 ```sh 
 $ musicrepair --config                                               
 Enter Spotify client ID : <enter Spotify client ID>  
