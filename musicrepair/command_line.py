@@ -46,8 +46,6 @@ def setup():
     SPOTIFY_CLIENT_ID = CONFIG['keys']['spotify_client_id']
     SPOTIFY_CLIENT_SECRET = CONFIG['keys']['spotify_client_secret']
 
-
-
     if SPOTIFY_CLIENT_ID == '<insert spotify client id here>':
         print('Warning, you are missing the Spotify client ID. Add it using --config\n\n')
     if SPOTIFY_CLIENT_SECRET == '<insert spotify client secret here>':
@@ -61,9 +59,9 @@ def add_config():
     Prompts user for API keys, adds them in an .ini file stored in the same
     location as that of the script
     """
-    spotify_client_id = raw_input('Enter Spotify client ID : ')
-    spotify_client_secret = raw_input('Enter Spotify client secret : ')
-    genius_key = raw_input('Enter Genius key : ')
+    spotify_client_id = input('Enter Spotify client ID : ')
+    spotify_client_secret = input('Enter Spotify client secret : ')
+    genius_key = input('Enter Genius key : ')
 
     CONFIG['keys']['genius_key'] = genius_key
     CONFIG['keys']['spotify_client_id'] = spotify_client_id
