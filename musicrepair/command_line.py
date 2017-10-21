@@ -82,7 +82,7 @@ def add_lyrics_genius(file_path, song_title):
     search_url = base_url + "/search"
     data = {'q': song_title}
 
-    response = requests.get(search_url, data=data, headers=headers)
+    response = requests.get(search_url, params=data, headers=headers)
     json = response.json()
 
     try:
