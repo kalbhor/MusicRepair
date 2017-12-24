@@ -37,6 +37,7 @@
 1. Fixes songs in nested directories recursively.
 2. Fetches metadata from [Spotify](https://www.spotify.com)
 3. Multiple options to format file (Options to revert file back)
+4. Simple binary
 
 ## Dependencies  
 
@@ -44,7 +45,9 @@
 
 1. Create an account and register an application.
 2. Copy the Client ID and Client Secret.
-3. Set them in config file (Or just enter them after running ```musicrepair -config```)
+3. Set them in *config file* after running ```musicrepair -config```
+
+###### *config file* will be created after running `musicrepair -config`, and located at `$HOME/.musicrepair/config.json`
 
 ### Set them using ```-config```
 ```sh 
@@ -57,7 +60,8 @@ Enter Spotify client secret : <enter Spotify client secret>
 
 ### Via Binary
 
-Download the latest binary from the [releases page](https://github.com/kalbhor/MusicRepair/releases)
+Download the latest binary from the [releases page](https://github.com/kalbhor/MusicRepair/releases).
+
 Make sure to add the binary to your `$PATH`
 
 ### Via Go
@@ -67,9 +71,14 @@ $ which musicrepair
 $ $GOPATH/bin/musicrepair
 ```
 
-
 ## Usage
 
+Initially, you'll have to add the Spotify credentials. 
+```sh
+$ musicrepair -config
+```
+
+After that, always a simple command
 ```sh
 $ musicrepair
 ✨ 🍰
@@ -95,7 +104,8 @@ Usage of musicrepair:
 
 ## Contribute
 
-Found an issue? Post it in the [issue tracker](https://github.com/kalbhor/MusicRepair/issues). <br> 
+Found an issue? Post it in the [issue tracker](https://github.com/kalbhor/MusicRepair/issues).
+
 Want to add another awesome feature? [Fork](https://github.com/kalbhor/MusicRepair/fork) this repository and add your feature, then send a pull request.
 
 ## License
