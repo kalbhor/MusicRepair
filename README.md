@@ -78,20 +78,19 @@ $ musicrepair
 
 ### Options
 ```
-$ musicrepair -h
+$ musicrepair -help
 
-optional arguments:
-  -help            show this help message and exit
-  
-  -config          Add API keys to config
-
-  -dir             Specifies the directory where the music files are located
-
-  -recursive       Specifies whether or not to run recursively
-                        in the given music directory
-
-  -revert          Specifies the directory where music files
-                        that need to be reverted are located
+Usage of musicrepair:
+  -config
+    	If set, MusicRepair will ask for credentials
+  -dir string
+    	Specifies the directory where the music files are located (default "./")
+  -recursive
+    	If set, Musicrepair will run recursively in the given directory
+  -revert
+    	If set, Musicrepair will revert the files
+  -threads int
+    	Specify the number of threads to use (default 1)
 ```
 
 ## Contribute
