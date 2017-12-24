@@ -53,7 +53,7 @@ func main() {
 	close(jobs)
 
 	for r := 1; r <= len(fileList); r++ {
-		fmt.Println("[%v] %v", r, <-results)
+		fmt.Printf("[%v] %v\n", r, <-results)
 	}
 
 }
