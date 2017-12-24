@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 
 	"github.com/bogem/id3v2"
@@ -15,8 +16,11 @@ type Config struct {
 	Secret string
 }
 
+var configFolder string = path.Join(os.Getenv("HOME"), ".musicrepair")
+var configPath string = path.Join(configFolder, "config.json")
+
 func LoadConfig() (*Config, error) {
-	file, err := os.Open("config.json")
+	file, err := os.Open(configPath)
 	if err != nil {
 		return nil, err
 	}
@@ -41,13 +45,14 @@ func SetConfig() error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile("config.json", b, 0644)
-	if err != nil {
+	if err := os.Mkdir(configFolder, os.ModePerm); err != nil {
+		return err
+	}
+	if err := ioutil.WriteFile(configPath, b, os.ModePerm); err != nil {
 		return err
 	}
 
 	return nil
-
 }
 
 func WalkDir(root string) (fileList []string) {
