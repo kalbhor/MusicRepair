@@ -1,8 +1,5 @@
 
 <p align="center">
-    <img src="https://s28.postimg.org/wibuzmq8d/Music_Repair_GIF.gif" width="800">    
-</p>
-<p align="center">
   <b>Adds Metadata to Music files</b>
 </p>
 
