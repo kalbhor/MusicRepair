@@ -1,4 +1,3 @@
-
 <p align="center">
   <b>Adds Metadata to Music files</b>
 </p>
@@ -10,23 +9,6 @@
 	<a href="https://github.com/kalbhor/musicrepair">
 		<img alt="stars" src="https://img.shields.io/github/stars/kalbhor/musicrepair.svg?style=social&label=Star"/>
 	</a>            
-</p>
-
-
-## Media
-<p align="left">
-    <a href="https://mavielinux.com/2016/12/11/musicrepair-pour-corriger-les-titresajouter-les-metadonnees-et-les-pochettes-de-vos-musiques/">
-		<img width="70px" src="http://i.imgur.com/TklsaII.png"/>
-	</a>
-	&nbsp;&nbsp;&nbsp;
-    <a href="http://blog.desdelinux.net/reparar-archivos-de-musica/">
-		<img width="160px" src="http://i.imgur.com/eV1WxYZ.png"/>
-	</a>
-	&nbsp;&nbsp;&nbsp;
-    <a href="https://www.reddit.com/r/learnpython/comments/5gzvcb/i_made_a_script_that_would_fix_your_music_files/">
-		<img width="160px" src="http://i.imgur.com/Jk8PgIb.png"/>
-	</a>
-	&nbsp;&nbsp;&nbsp;
 </p>
 
 ## Features
@@ -98,6 +80,23 @@ Usage of musicrepair:
   -threads int
     	Specify the number of threads to use (default 1)
 ```
+
+## Discussions/Write-Ups
+<p align="left">
+    <a href="https://mavielinux.com/2016/12/11/musicrepair-pour-corriger-les-titresajouter-les-metadonnees-et-les-pochettes-de-vos-musiques/">
+		<img width="70px" src="http://i.imgur.com/TklsaII.png"/>
+	</a>
+	&nbsp;&nbsp;&nbsp;
+    <a href="http://blog.desdelinux.net/reparar-archivos-de-musica/">
+		<img width="160px" src="http://i.imgur.com/eV1WxYZ.png"/>
+	</a>
+	&nbsp;&nbsp;&nbsp;
+    <a href="https://www.reddit.com/r/learnpython/comments/5gzvcb/i_made_a_script_that_would_fix_your_music_files/">
+		<img width="160px" src="http://i.imgur.com/Jk8PgIb.png"/>
+	</a>
+	&nbsp;&nbsp;&nbsp;
+</p>
+
 
 ## Contribute
 
